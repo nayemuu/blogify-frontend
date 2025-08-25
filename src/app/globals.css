@@ -1,6 +1,54 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme {
+  /**
+   * @note Why `--breakpoint-*: initial;` is used
+   *
+   * Tailwind provides its own default breakpoints by default:
+   *  sm: 640px
+   *  md: 768px
+   *  lg: 1024px
+   *  xl: 1280px
+   *  2xl: 1536px
+   *
+   * When we define custom breakpoints inside `@theme { ... }`,
+   * Tailwind does not replace its defaults — it *merges* our
+   * custom values with the built-in ones.
+   *
+   * 🔴 Without `--breakpoint-*: initial;`
+   * - Tailwind's defaults stay active.
+   * - Our custom breakpoints are added on top.
+   * - This can lead to duplicated or conflicting breakpoint
+   *   names (e.g. `sm` from Tailwind = 640px, but our `sm` = 576px).
+   * - Which one gets applied depends on ordering, making it
+   *   unpredictable.
+   *
+   * ✅ With `--breakpoint-*: initial;`
+   * - All default breakpoints are reset/removed first.
+   * - Only our explicitly defined breakpoints remain.
+   * - This ensures a clean, consistent, and predictable
+   *   breakpoint system aligned with our design requirements.
+   */
+  --breakpoint-*: initial;
+
+  /* Custom breakpoints */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px; /* renamed key to avoid duplicate "xl" */
+
+  /* Brand Colors */
+  --color-primary: #43bfc7; /* main brand / accent color */
+  --color-primary-soft: #43bfc71a; /* soft tinted variant for hovers, backgrounds */
+}
+
+@utility container {
+  margin: auto;
+  padding: "1rem";
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
