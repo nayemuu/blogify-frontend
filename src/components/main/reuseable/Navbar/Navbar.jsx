@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "@/assets/components/Navbar/Nayem-light.svg";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Hamburger from "./Hamburger/Hamburger";
+import MobileNav from "./MobileNav";
 
 const navLinks = [
   {
@@ -31,9 +32,13 @@ const navLinks = [
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
+  // useEffect(() => {
+  //   console.log("showMobileMenu = ", showMobileMenu);
+  // }, [showMobileMenu]);
+
   return (
     <div className="bg-white backdrop-blur-md fixed top-0 left-0 right-0 border-b">
-      <div className="container min-h-[80px] flex items-center justify-between w-full gap-x-[20px]">
+      <div className="container min-h-[80px] flex items-center justify-between w-full gap-x-[20px] z-[10]">
         <div className="flex gap-x-[15px] items-center">
           <Image src={logo} className="w-36" alt="logo" />
 
@@ -76,6 +81,8 @@ const Navbar = () => {
           />
         </div>
       </div>
+
+      {showMobileMenu && navLinks && <MobileNav navLinks={navLinks} />}
     </div>
   );
 };

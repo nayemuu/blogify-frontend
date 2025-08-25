@@ -7,7 +7,7 @@ function Hamburger({ callback, show }) {
   };
 
   return (
-    <div className="mt-[2px]">
+    <div className="mt-[3px] relative lg:hidden">
       <button
         id="menu-btn"
         type="button"
