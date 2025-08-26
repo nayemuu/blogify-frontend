@@ -35,7 +35,7 @@ const SearchBar = () => {
           type="text"
           placeholder="Search Here..."
           onChange={handleSearch}
-          className="bg-[#F5F5F5] w-full h-full outline-none rounded-[20px] border border-solid focus:border-[var(--primary-color)] border-transparent pl-[42px] text-[14px] searchbar"
+          className="bg-[#F5F5F5] w-full h-full outline-none rounded-[20px] border border-solid focus:border-primary border-transparent pl-[42px] text-[14px] searchbar"
           ref={inputRef}
           //   onKeyDown={(e) => searchInputSuggestionHandler(e)}
         />

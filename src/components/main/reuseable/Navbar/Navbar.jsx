@@ -56,12 +56,13 @@ const Navbar = () => {
 
           <div className="w-full max-w-[410px] flex-grow flex items-center gap-x-[10px]">
             <SearchBar />
+
             <DropdownMenu>
               <DropdownMenuTrigger className="h-[40px] aspect-square rounded-full">
-                <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer">
+                <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer bg-brand-primary">
                   <Icon
                     icon="ep:user-filled"
-                    className="text-[26px] text-ash"
+                    className="text-[26px] text-white"
                   />
                 </div>
               </DropdownMenuTrigger>
