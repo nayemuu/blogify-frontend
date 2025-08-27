@@ -3,6 +3,7 @@ import { debounceHandler } from "@/utils/debounceHandler";
 import "./SearchBar.css";
 import { Icon } from "@iconify/react";
 import { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
 
 const SearchBar = () => {
   const [searchText, setSearchText] = useState("");
@@ -31,14 +32,23 @@ const SearchBar = () => {
           e.preventDefault();
         }}
       >
-        <input
+        <Input
+          type="text"
+          placeholder="Search Here..."
+          onChange={handleSearch}
+          className="bg-[#F5F5F5] w-full h-full outline-none rounded-[20px] border border-solid border-transparent pl-[42px] text-[14px]"
+          ref={inputRef}
+          //   onKeyDown={(e) => searchInputSuggestionHandler(e)}
+        />
+
+        {/* <input
           type="text"
           placeholder="Search Here..."
           onChange={handleSearch}
           className="bg-[#F5F5F5] w-full h-full outline-none rounded-[20px] border border-solid focus:border-primary border-transparent pl-[42px] text-[14px] searchbar"
           ref={inputRef}
           //   onKeyDown={(e) => searchInputSuggestionHandler(e)}
-        />
+        /> */}
       </form>
 
       {searchText.length ? (
