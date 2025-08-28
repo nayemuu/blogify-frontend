@@ -9,6 +9,7 @@ import "./CreateArticleForm.css";
 import { Button } from "@/components/ui/button";
 import ImageUpload from "./ImageUpload";
 import MultiSelectOptonItems from "@/components/main/reuseable/Selects/MultiSelectOpton/MultiSelectOpton";
+import { Icon } from "@iconify/react";
 
 const modules = {
   toolbar: [
@@ -55,8 +56,8 @@ const CreateArticleForm = () => {
   const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
-    console.log("showTagsDropdown = ", showTagsDropdown);
-  }, [showTagsDropdown]);
+    console.log("selectedTags = ", selectedTags);
+  }, [selectedTags]);
 
   const textEditorInputHandler = (content, delta, source, editor) => {
     setTextEditorValue(content);
@@ -65,6 +66,23 @@ const CreateArticleForm = () => {
   const handleSubmit = () => {
     console.log("textEditorValue = ", textEditorValue);
   };
+
+  let selectedTagsTitle = "Select Tag";
+  if (selectedTags.length) {
+    selectedTags.map((itemId, index) => {
+      TagsList.map((tag) => {
+        if (itemId === tag.id) {
+          if (index !== 0) {
+            selectedTagsTitle = `${selectedTagsTitle}, ${tag.title}`;
+          } else {
+            selectedTagsTitle = tag.title;
+          }
+        }
+      });
+    });
+  } else {
+    selectedTagsTitle = "Select Tag";
+  }
 
   return (
     <div className="flex flex-col gap-[30px]">
@@ -80,13 +98,20 @@ const CreateArticleForm = () => {
           Tag
           {/* <span className="text-brand-primary">*</span> */}
         </Label>
-        <Input
-          type="text"
-          placeholder="tags.."
-          className="h-[50px]"
-          readOnly
-          onClick={() => setShowTagsDropdown(!showTagsDropdown)}
-        />
+        <div className="relative">
+          <Input
+            type="text"
+            placeholder="tags.."
+            className="h-[50px] cursor-pointer mr-3"
+            readOnly
+            value={selectedTagsTitle}
+            onClick={() => setShowTagsDropdown(!showTagsDropdown)}
+          />
+
+          <div className="absolute h-full flex items-center top-0 right-1 text-[12px] ">
+            <Icon icon="formkit:down" />
+          </div>
+        </div>
 
         {showTagsDropdown && TagsList.length ? (
           <div className="rounded-md bg-popover shadow-md border flex flex-col gap-3 p-3">
@@ -95,7 +120,8 @@ const CreateArticleForm = () => {
                 key={item.id}
                 item={item}
                 list={TagsList}
-                selectedItems={[]}
+                selectedItems={selectedTags}
+                setSelectedItems={setSelectedTags}
               />
             ))}
           </div>
@@ -125,7 +151,7 @@ const CreateArticleForm = () => {
       />
 
       <Button
-        className="max-w-[200px] h-[40px] text-[20px]"
+        className="max-w-[200px] h-[40px] text-[20px] bg-brand-primary"
         onClick={handleSubmit}
       >
         Submit
