@@ -2,12 +2,13 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "./CreateArticleForm.css";
 import { Button } from "@/components/ui/button";
 import ImageUpload from "./ImageUpload";
+import MultiSelectOptonItems from "@/components/main/reuseable/Selects/MultiSelectOpton/MultiSelectOpton";
 
 const modules = {
   toolbar: [
@@ -32,9 +33,30 @@ const formats = [
 ]; // UIএর toolbar কে ফাংশনাল করার জন্য
 // string ae extra specing thakle kaj korbe na
 
+let TagsList = [
+  {
+    id: 1,
+    title: "JavaScript",
+  },
+  {
+    id: 2,
+    title: "HTML",
+  },
+  {
+    id: 3,
+    title: "CSS",
+  },
+];
+
 const CreateArticleForm = () => {
   const [textEditorValue, setTextEditorValue] = useState("");
   const [coverImage, setCoverImage] = useState("");
+  const [showTagsDropdown, setShowTagsDropdown] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  useEffect(() => {
+    console.log("showTagsDropdown = ", showTagsDropdown);
+  }, [showTagsDropdown]);
 
   const textEditorInputHandler = (content, delta, source, editor) => {
     setTextEditorValue(content);
@@ -51,6 +73,35 @@ const CreateArticleForm = () => {
           Title <span className="text-brand-primary">*</span>
         </Label>
         <Input type="text" placeholder="Article title.." className="h-[50px]" />
+      </div>
+
+      <div className="grid w-full items-center gap-3">
+        <Label htmlFor="email" className="text-[20px]">
+          Tag
+          {/* <span className="text-brand-primary">*</span> */}
+        </Label>
+        <Input
+          type="text"
+          placeholder="tags.."
+          className="h-[50px]"
+          readOnly
+          onClick={() => setShowTagsDropdown(!showTagsDropdown)}
+        />
+
+        {showTagsDropdown && TagsList.length ? (
+          <div className="rounded-md bg-popover shadow-md border flex flex-col gap-3 p-3">
+            {TagsList.map((item) => (
+              <MultiSelectOptonItems
+                key={item.id}
+                item={item}
+                list={TagsList}
+                selectedItems={[]}
+              />
+            ))}
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
 
       <div>
