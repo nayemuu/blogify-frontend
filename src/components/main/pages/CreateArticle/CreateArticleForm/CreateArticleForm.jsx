@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "./CreateArticleForm.css";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import ImageUpload from "./ImageUpload";
 import MultiSelectOptonItems from "@/components/main/reuseable/Selects/MultiSelectOpton/MultiSelectOpton";
 import { Icon } from "@iconify/react";
+import useOutsideClick from "@/utils/useOutsideClick";
 
 const modules = {
   toolbar: [
@@ -50,21 +51,24 @@ let TagsList = [
 ];
 
 const CreateArticleForm = () => {
+  const [title, setTitle] = useState("");
   const [textEditorValue, setTextEditorValue] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [showTagsDropdown, setShowTagsDropdown] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
-
-  useEffect(() => {
-    console.log("selectedTags = ", selectedTags);
-  }, [selectedTags]);
+  const tagsInputRef = useRef();
 
   const textEditorInputHandler = (content, delta, source, editor) => {
     setTextEditorValue(content);
   };
 
+  useOutsideClick(tagsInputRef, () => setShowTagsDropdown(false));
+
   const handleSubmit = () => {
+    console.log("title = ", title);
+    console.log("selectedTags = ", selectedTags);
     console.log("textEditorValue = ", textEditorValue);
+    console.log("coverImage = ", coverImage);
   };
 
   let selectedTagsTitle = "Select Tag";
@@ -90,7 +94,13 @@ const CreateArticleForm = () => {
         <Label htmlFor="email" className="text-[20px]">
           Title <span className="text-brand-primary">*</span>
         </Label>
-        <Input type="text" placeholder="Article title.." className="h-[50px]" />
+        <Input
+          type="text"
+          placeholder="Article title.."
+          className="h-[50px]"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </div>
 
       <div className="grid w-full items-center gap-3">
@@ -98,36 +108,37 @@ const CreateArticleForm = () => {
           Tag
           {/* <span className="text-brand-primary">*</span> */}
         </Label>
-        <div className="relative">
-          <Input
-            type="text"
-            placeholder="tags.."
-            className="h-[50px] cursor-pointer mr-3"
-            readOnly
-            value={selectedTagsTitle}
-            onClick={() => setShowTagsDropdown(!showTagsDropdown)}
-          />
+        <div ref={tagsInputRef}>
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="tags.."
+              className="h-[50px] cursor-pointer mr-3"
+              readOnly
+              value={selectedTagsTitle}
+              onClick={() => setShowTagsDropdown(!showTagsDropdown)}
+            />
 
-          <div className="absolute h-full flex items-center top-0 right-1 text-[12px] ">
-            <Icon icon="formkit:down" />
+            <div className="absolute h-full flex items-center top-0 right-1 text-[12px] pointer-events-none">
+              <Icon icon="formkit:down" />
+            </div>
           </div>
+          {showTagsDropdown && TagsList.length ? (
+            <div className="rounded-md bg-popover shadow-md border flex flex-col gap-3 p-3 mt-3">
+              {TagsList.map((item) => (
+                <MultiSelectOptonItems
+                  key={item.id}
+                  item={item}
+                  list={TagsList}
+                  selectedItems={selectedTags}
+                  setSelectedItems={setSelectedTags}
+                />
+              ))}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
-
-        {showTagsDropdown && TagsList.length ? (
-          <div className="rounded-md bg-popover shadow-md border flex flex-col gap-3 p-3">
-            {TagsList.map((item) => (
-              <MultiSelectOptonItems
-                key={item.id}
-                item={item}
-                list={TagsList}
-                selectedItems={selectedTags}
-                setSelectedItems={setSelectedTags}
-              />
-            ))}
-          </div>
-        ) : (
-          <></>
-        )}
       </div>
 
       <div>
