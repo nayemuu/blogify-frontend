@@ -1,4 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
+import { profileApi } from "../profile/profileApi";
 import { userLoggedIn } from "./authSlice";
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,6 +22,7 @@ export const authApi = apiSlice.injectEndpoints({
                 refreshToken: result.data.data.tokens.refresh,
               })
             );
+            dispatch(profileApi.endpoints.profile.initiate());
 
             localStorage.setItem(
               "auth",

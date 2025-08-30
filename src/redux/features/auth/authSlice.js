@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
+import { profileApi } from "../profile/profileApi";
 
 const initialState = {
   accessToken: undefined,

@@ -3,17 +3,17 @@ import { unauthorized } from "next/navigation";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
-  // prepareHeaders: (headers, { getState }) => {
-  //   const token = getState()?.auth?.accessToken;
-  //   //console.log(getState());
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState()?.auth?.accessToken;
+    //console.log(getState());
 
-  //   // console.log('in apiSlice prepareHeaders, token = ', token);
-  //   if (token) {
-  //     headers.set("Authorization", `Bearer ${token}`);
-  //   }
+    // console.log('in apiSlice prepareHeaders, token = ', token);
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
 
-  //   return headers;
-  // },
+    return headers;
+  },
 });
 
 export const apiSlice = createApi({

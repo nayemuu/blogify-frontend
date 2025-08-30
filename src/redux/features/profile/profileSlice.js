@@ -16,7 +16,7 @@ const profileSlice = createSlice({
 
     clearProfileInfo: (state) => {
       state.name = "";
-      state.email = "";
+      state.picture = "";
     },
     clearProfileInfo: () => initialState, // Return initial state directly
   },

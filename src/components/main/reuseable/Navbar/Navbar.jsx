@@ -20,6 +20,10 @@ import MobileNav from "./MobileNav";
 import LoginModal from "../Modals/LoginModal/LoginModal";
 
 import { Dialog } from "@/components/ui/dialog";
+import { useDispatch, useSelector } from "react-redux";
+import { Avatar } from "@/components/ui/avatar";
+import { userLoggedOut } from "@/redux/features/auth/authSlice";
+import { clearProfileInfo } from "@/redux/features/profile/profileSlice";
 
 const navLinks = [
   {
@@ -35,6 +39,27 @@ const navLinks = [
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const { accessToken } = useSelector((state) => state.auth);
+  const { name } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   console.log("accessToken = ", accessToken);
+  // }, [accessToken]);
+
+  // useEffect(() => {
+  //   console.log("profile = ", profile);
+  // }, [profile]);
+
+  // useEffect(() => {
+  //   console.log("name = ", name);
+  // }, [name]);
+
+  const handleLogout = () => {
+    dispatch(userLoggedOut());
+    dispatch(clearProfileInfo());
+    localStorage.removeItem("auth");
+  };
 
   return (
     <>
@@ -57,29 +82,53 @@ const Navbar = () => {
           <div className="w-full max-w-[410px] flex-grow flex items-center gap-x-[10px]">
             <SearchBar />
 
-            <DropdownMenu>
-              <DropdownMenuTrigger className="h-[40px] aspect-square rounded-full">
-                <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer bg-brand-primary">
-                  <Icon
-                    icon="ep:user-filled"
-                    className="text-[26px] text-white"
-                  />
-                </div>
-              </DropdownMenuTrigger>
+            {accessToken && name ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="h-[40px] aspect-square rounded-full">
+                  <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer bg-brand-primary text-[22px] leading-0 text-white font-bold">
+                    {name[0]?.toUpperCase()}
+                    {}
+                  </div>
+                </DropdownMenuTrigger>
 
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem className="cursor-pointer">
-                  Sign Up
-                </DropdownMenuItem>
+                <DropdownMenuContent align="end">
+                  {/* <DropdownMenuItem className="cursor-pointer">
+                    Profile
+                  </DropdownMenuItem> */}
 
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={() => setShowLoginModal(true)}
-                >
-                  Login
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="h-[40px] aspect-square rounded-full">
+                  <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer bg-brand-primary">
+                    <Icon
+                      icon="ep:user-filled"
+                      className="text-[26px] text-white"
+                    />
+                  </div>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem className="cursor-pointer">
+                    Sign Up
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => setShowLoginModal(true)}
+                  >
+                    Login
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
 
             <Hamburger
               show={showMobileMenu}
