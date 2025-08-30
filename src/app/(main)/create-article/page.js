@@ -1,10 +1,13 @@
 import CreateArticleForm from "@/components/main/pages/CreateArticle/CreateArticleForm/CreateArticleForm";
+import ProtectedRoute from "@/components/main/reuseable/ProtectedRoute/ProtectedRoute";
 
 const page = () => {
   return (
-    <div className="container">
-      <CreateArticleForm />
-    </div>
+    <ProtectedRoute>
+      <div className="container">
+        <CreateArticleForm />
+      </div>
+    </ProtectedRoute>
   );
 };
 
