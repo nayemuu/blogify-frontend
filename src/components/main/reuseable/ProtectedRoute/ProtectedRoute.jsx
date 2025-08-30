@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import { PulseLoader } from "react-spinners";
+import { PulseLoader } from "react-spinners";
 
 export default function ProtectedRoute({ children }) {
   const router = useRouter();
@@ -20,8 +20,7 @@ export default function ProtectedRoute({ children }) {
   if (!isAuthenticated) {
     return (
       <div className="w-full h-full flex justify-center items-center mt-[200px]">
-        {/* <PulseLoader color="#00A884" /> */}
-        loading
+        <PulseLoader color="#43bfc7" />
       </div>
     ); // Showing loader while checking auth
   }
