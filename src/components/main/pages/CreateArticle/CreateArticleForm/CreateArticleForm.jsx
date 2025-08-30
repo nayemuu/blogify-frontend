@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import ImageUpload from "./ImageUpload";
 import MultiSelectOptonItems from "@/components/main/reuseable/Selects/MultiSelectOpton/MultiSelectOpton";
 import { Icon } from "@iconify/react";
-import useOutsideClick from "@/utils/useOutsideClick";
+import useOutsideClick from "@/hooks/useOutsideClick";
 
 const modules = {
   toolbar: [
