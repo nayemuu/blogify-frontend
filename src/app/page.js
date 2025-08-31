@@ -14,7 +14,7 @@ export default function Home() {
 
       <div className="mt-[180px]">
         <div className="bg-brand-primary p-4">
-          <div className="m-5 flex flex-col justify-center items-center h-full w-full">
+          <div className="m-5 flex flex-col justify-center items-center">
             <div className="mb-4 text-xl text-bold">{value}</div>
             <button
               type="button"

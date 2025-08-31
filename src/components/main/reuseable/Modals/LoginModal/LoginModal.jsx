@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useState } from "react";
+import Error from "../../Error/Error";
 const LoginModal = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,11 +34,11 @@ const LoginModal = () => {
   return (
     <>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle>Login</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -60,6 +61,8 @@ const LoginModal = () => {
               />
             </div>
           </div>
+
+          <Error message="Something went wrong" />
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
