@@ -140,7 +140,7 @@ const Navbar = () => {
         {showMobileMenu && navLinks && <MobileNav navLinks={navLinks} />}
 
         <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
-          <LoginModal />
+          <LoginModal setShowLoginModal={setShowLoginModal} />
         </Dialog>
       </div>
     </>

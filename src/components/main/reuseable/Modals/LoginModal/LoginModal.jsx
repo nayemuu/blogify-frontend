@@ -14,9 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Error from "../../Error/Error";
-const LoginModal = () => {
+const LoginModal = ({ setShowLoginModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,6 +30,12 @@ const LoginModal = () => {
 
     login({ email: email.trim(), password: password.trim() });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowLoginModal(false);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -62,7 +68,18 @@ const LoginModal = () => {
             </div>
           </div>
 
-          <Error message="Something went wrong" />
+          {isError ? (
+            <Error
+              message={
+                error?.data?.message
+                  ? error.data.message
+                  : "Something went wrong"
+              }
+            />
+          ) : (
+            <></>
+          )}
+
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
