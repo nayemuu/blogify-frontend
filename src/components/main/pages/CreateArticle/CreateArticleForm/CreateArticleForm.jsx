@@ -11,6 +11,7 @@ import ImageUpload from "./ImageUpload";
 import MultiSelectOptonItems from "@/components/main/reuseable/Selects/MultiSelectOpton/MultiSelectOpton";
 import { Icon } from "@iconify/react";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import { useGetTagsQuery } from "@/redux/features/tags/tagsApi";
 
 const modules = {
   toolbar: [
@@ -35,21 +36,6 @@ const formats = [
 ]; // UIএর toolbar কে ফাংশনাল করার জন্য
 // string ae extra specing thakle kaj korbe na
 
-let TagsList = [
-  {
-    id: 1,
-    title: "JavaScript",
-  },
-  {
-    id: 2,
-    title: "HTML",
-  },
-  {
-    id: 3,
-    title: "CSS",
-  },
-];
-
 const CreateArticleForm = () => {
   const [title, setTitle] = useState("");
   const [textEditorValue, setTextEditorValue] = useState("");
@@ -57,6 +43,14 @@ const CreateArticleForm = () => {
   const [showTagsDropdown, setShowTagsDropdown] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const tagsInputRef = useRef();
+
+  const {
+    isLoading: tagsIsLoading,
+    isError: tagsIsError,
+    isSuccess: tagsIsSuccess,
+    data: tagsData,
+    error: tagsError,
+  } = useGetTagsQuery();
 
   const textEditorInputHandler = (content, delta, source, editor) => {
     setTextEditorValue(content);
@@ -72,9 +66,9 @@ const CreateArticleForm = () => {
   };
 
   let selectedTagsTitle = "Select Tag";
-  if (selectedTags.length) {
+  if (selectedTags.length & tagsData?.data?.length) {
     selectedTags.map((itemId, index) => {
-      TagsList.map((tag) => {
+      tagsData.data.map((tag) => {
         if (itemId === tag.id) {
           if (index !== 0) {
             selectedTagsTitle = `${selectedTagsTitle}, ${tag.title}`;
@@ -123,13 +117,13 @@ const CreateArticleForm = () => {
               <Icon icon="formkit:down" />
             </div>
           </div>
-          {showTagsDropdown && TagsList.length ? (
+          {showTagsDropdown && tagsIsSuccess && tagsData?.data?.length ? (
             <div className="rounded-md bg-popover shadow-md border flex flex-col gap-3 p-3 mt-3">
-              {TagsList.map((item) => (
+              {tagsData.data.map((item) => (
                 <MultiSelectOptonItems
                   key={item.id}
                   item={item}
-                  list={TagsList}
+                  list={tagsData.data}
                   selectedItems={selectedTags}
                   setSelectedItems={setSelectedTags}
                 />
