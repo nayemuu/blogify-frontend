@@ -12,6 +12,7 @@ import MultiSelectOptonItems from "@/components/main/reuseable/Selects/MultiSele
 import { Icon } from "@iconify/react";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useGetTagsQuery } from "@/redux/features/tags/tagsApi";
+import { useCreateBlogMutation } from "@/redux/features/blogs/blogsApi";
 
 const modules = {
   toolbar: [
@@ -43,6 +44,7 @@ const CreateArticleForm = () => {
   const [showTagsDropdown, setShowTagsDropdown] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const tagsInputRef = useRef();
+  const formRef = useRef(null);
 
   const {
     isLoading: tagsIsLoading,
@@ -52,17 +54,73 @@ const CreateArticleForm = () => {
     error: tagsError,
   } = useGetTagsQuery();
 
+  const [createBlog, { isLoading, isError, isSuccess, data, error }] =
+    useCreateBlogMutation();
+
   const textEditorInputHandler = (content, delta, source, editor) => {
     setTextEditorValue(content);
   };
 
   useOutsideClick(tagsInputRef, () => setShowTagsDropdown(false));
 
-  const handleSubmit = () => {
-    console.log("title = ", title);
-    console.log("selectedTags = ", selectedTags);
-    console.log("textEditorValue = ", textEditorValue);
-    console.log("coverImage = ", coverImage);
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("data = ", data);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      console.log("error = ", error);
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    const formElement = formRef.current;
+
+    if (!formElement) return;
+
+    // Attach a keydown listener to the form
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter" && e.target.tagName === "INPUT") {
+        e.preventDefault(); // block form submit on Enter key
+      }
+    };
+
+    formElement.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      formElement.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validation
+    if (!title?.trim()) {
+      alert("Title is required");
+      return;
+    }
+
+    if (!textEditorValue?.trim()) {
+      alert("Content is required");
+      return;
+    }
+
+    if (!coverImage) {
+      alert("Cover Image is required");
+      return;
+    }
+
+    // Create FormData
+    const formData = new FormData();
+    formData.append("title", title.trim());
+    formData.append("tags", JSON.stringify(selectedTags)); // send as array
+    formData.append("content", textEditorValue.trim());
+    // formData.append("thumbnail", coverImage); // file or base64
+
+    createBlog(formData); // send validated data
   };
 
   let selectedTagsTitle = "Select Tag";
@@ -83,7 +141,11 @@ const CreateArticleForm = () => {
   }
 
   return (
-    <div className="flex flex-col gap-[30px]">
+    <form
+      className="flex flex-col gap-[30px]"
+      onSubmit={handleSubmit}
+      ref={formRef}
+    >
       <div className="grid w-full items-center gap-3">
         <Label htmlFor="email" className="text-[20px]">
           Title <span className="text-brand-primary">*</span>
@@ -155,13 +217,10 @@ const CreateArticleForm = () => {
         title="Cover Image"
       />
 
-      <Button
-        className="max-w-[200px] h-[40px] text-[20px] bg-brand-primary"
-        onClick={handleSubmit}
-      >
+      <Button className="max-w-[200px] h-[40px] text-[20px] bg-brand-primary">
         Submit
       </Button>
-    </div>
+    </form>
   );
 };
 

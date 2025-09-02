@@ -14,8 +14,6 @@ export const tagsApi = apiSlice.injectEndpoints({
         }
       },
     }),
-
-    // ({ query: "/api/v1/user/profile" }),
   }),
 });
 
