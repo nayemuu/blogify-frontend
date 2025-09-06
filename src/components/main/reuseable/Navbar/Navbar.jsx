@@ -87,7 +87,6 @@ const Navbar = () => {
                 <DropdownMenuTrigger className="h-[40px] aspect-square rounded-full">
                   <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer bg-brand-primary text-[22px] leading-0 text-white font-bold">
                     {name[0]?.toUpperCase()}
-                    {}
                   </div>
                 </DropdownMenuTrigger>
 
