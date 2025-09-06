@@ -1,6 +1,7 @@
 import Image from "next/image";
 import "./BlogCard.css";
 import moment from "moment";
+import Link from "next/link";
 
 const saveSvg = (
   <svg
@@ -97,7 +98,7 @@ const BlogCard = ({ blog }) => {
           <div
             className={`text-[16px] font-medium leading-[18px] line-clamp-2 pb-1`}
           >
-            {blog.title}
+            <Link href={`/blog/${blog.id}`}>{blog.title}</Link>
           </div>
 
           <div className="flex justify-between w-full items-end">
