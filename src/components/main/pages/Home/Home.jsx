@@ -2,6 +2,7 @@
 
 import { useGetBlogsQuery } from "@/redux/features/blogs/blogsApi";
 import { useEffect, useState } from "react";
+import BlogCard from "../../reuseable/Cards/BlogCard/BlogCard";
 
 const Home = () => {
   const limit = 5;
@@ -27,8 +28,14 @@ const Home = () => {
   }, [error, isError]);
 
   return (
-    <div>
-      <p>yii</p>
+    <div className="container">
+      <div className="flex flex-col gap-5">
+        {data?.data?.length ? (
+          data.data.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };
