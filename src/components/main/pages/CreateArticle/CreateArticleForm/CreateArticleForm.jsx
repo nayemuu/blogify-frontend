@@ -118,7 +118,7 @@ const CreateArticleForm = () => {
     formData.append("title", title.trim());
     formData.append("tags", JSON.stringify(selectedTags)); // send as array
     formData.append("content", textEditorValue.trim());
-    // formData.append("thumbnail", coverImage); // file or base64
+    formData.append("thumbnail", coverImage); // file or base64
 
     createBlog(formData); // send validated data
   };
