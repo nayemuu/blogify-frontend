@@ -41,7 +41,7 @@
 
   /* Brand Colors */
   --color-brand-primary: #43bfc7; /* main brand / accent color */
-  --color-brand-primary-soft: #43bfc71a; /* soft tinted variant for hovers, backgrounds */
+  --color-brand-primary-soft: #3abfba1a; /* soft tinted variant for hovers, backgrounds */
 }
 
 @utility container {

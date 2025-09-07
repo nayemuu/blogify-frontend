@@ -63,7 +63,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-white backdrop-blur-md fixed top-0 left-0 right-0 border-b z-[10]">
+      <div className="bg-white backdrop-blur-md sticky top-0 left-0 right-0 border-b z-[10]">
         <div className="container min-h-[80px] flex items-center justify-between w-full gap-x-[20px]">
           <div className="flex gap-x-[15px] items-center">
             <Image src={logo} className="w-36" alt="logo" />

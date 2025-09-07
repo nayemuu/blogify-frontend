@@ -50,7 +50,7 @@ const TagHandler = (tags) => {
         return (
           <div
             key={tag.id}
-            className="p-[5px] text-brand-primary bg-brand-primary-soft font-normal text-[12px] leading-[14px] rounded-[4px]"
+            className="py-[5px] px-[8px] text-brand-primary bg-brand-primary-soft font-medium text-[12px] leading-[14px] rounded-[4px]"
           >
             {tag.title}
           </div>
@@ -60,7 +60,7 @@ const TagHandler = (tags) => {
         return (
           <div
             key={index}
-            className="p-[5px] text-primary font-normal text-[0.688rem] sm:text-xs leading-[10px]  sm:leading-[14.32px] rounded bg-primary15"
+            className="py-[5px] px-[8px] text-primary font-medium text-[0.688rem] sm:text-xs leading-[10px]  sm:leading-[14.32px] rounded bg-primary15"
           >
             ...
           </div>

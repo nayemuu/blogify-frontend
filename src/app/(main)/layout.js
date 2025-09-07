@@ -5,7 +5,7 @@ const layout = ({ children }) => {
   return (
     <div>
       <Navbar />
-      <div className="mt-[120px]">{children}</div>
+      <div className="">{children}</div>
     </div>
   );
 };
