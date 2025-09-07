@@ -101,7 +101,7 @@ const ImageUpload = ({ image, setImage, title }) => {
           </label>
         </div>
 
-        {image && URL.createObjectURL(image) ? (
+        {image && image instanceof File && URL.createObjectURL(image) ? (
           <div className="h-full aspect-square bg-white rounded-lg border border-[#DCE0E4] relative flex justify-center items-center overflow-hidden shrink-0">
             <span
               className="absolute top-2 right-2 cursor-pointer z-2"
@@ -112,6 +112,28 @@ const ImageUpload = ({ image, setImage, title }) => {
 
             <img
               src={URL.createObjectURL(image)}
+              className="object-cover h-full w-auto"
+              alt="icon"
+              onLoad={() => {
+                setImageLoading(false);
+              }}
+            />
+
+            {imageLoading && (
+              <div className="h-full w-full rounded bg-gray-400 animate-pulse"></div>
+            )}
+          </div>
+        ) : image && typeof image === "string" ? (
+          <div className="h-full aspect-square bg-white rounded-lg border border-[#DCE0E4] relative flex justify-center items-center overflow-hidden shrink-0">
+            <span
+              className="absolute top-2 right-2 cursor-pointer z-2"
+              onClick={() => setImage(null)}
+            >
+              {closeSvg}
+            </span>
+
+            <img
+              src={image}
               className="object-cover h-full w-auto"
               alt="icon"
               onLoad={() => {
