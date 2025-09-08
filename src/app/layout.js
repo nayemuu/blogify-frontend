@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/redux/provider/StoreProvider";
 import AuthChecking from "@/components/main/reuseable/AuthChecking/AuthChecking";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           {children}
           <AuthChecking />
         </StoreProvider>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

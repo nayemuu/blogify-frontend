@@ -13,6 +13,7 @@ import { Icon } from "@iconify/react";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useGetTagsQuery } from "@/redux/features/tags/tagsApi";
 import { useCreateBlogMutation } from "@/redux/features/blogs/blogsApi";
+import { toast } from "sonner";
 
 // ------------------------
 // 1. Custom font sizes
@@ -102,7 +103,13 @@ const CreateArticleForm = () => {
 
   useEffect(() => {
     if (isError) {
-      console.log("error = ", error);
+      // console.log("error = ", error);
+      if (error?.data?.message) {
+        toast.error(error.data.message);
+        // toast.success(error.data.message);
+      } else {
+        toast.error("Somethimg went wrong");
+      }
     }
   }, [isError]);
 

@@ -27,7 +27,6 @@ let likeSvg = (
 );
 
 const Blog = ({ blog }) => {
-  console.log(parse(blog.content));
   return (
     <div className="relative">
       <div className="absolute bg-brand-primary-soft max-h-[500px] h-full top-0 left-0 right-0"></div>
@@ -59,7 +58,7 @@ const Blog = ({ blog }) => {
               </div>
             </div>
 
-            <div> {moment(blog.createdAt).fromNow()}</div>
+            <div> {moment(blog.publishedAt).fromNow()}</div>
           </div>
 
           {/* thumbnail Section */}
