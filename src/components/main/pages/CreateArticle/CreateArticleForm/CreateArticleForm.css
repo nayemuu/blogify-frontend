@@ -15,11 +15,69 @@
   min-height: 300px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  font-family: "SF Pro Display", sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  font-style: normal;
   border: 1px solid #e4e4e4;
+}
+
+/* -------------------------- */
+/* Font size labels in dropdown */
+/* -------------------------- */
+/* Map pixel values so dropdown shows correct numbers */
+:root {
+  --size-values: 10px, 11px, 12px, 14px, 16px, 18px, 20px, 22px, 24px, 26px,
+    30px, 32px, 48px;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="10px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="10px"]::before {
+  content: "10px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="11px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="11px"]::before {
+  content: "11px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before {
+  content: "12px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before {
+  content: "14px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before {
+  content: "16px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
+  content: "18px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before {
+  content: "20px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="22px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="22px"]::before {
+  content: "22px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before {
+  content: "24px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="26px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="26px"]::before {
+  content: "26px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="30px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="30px"]::before {
+  content: "30px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="32px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="32px"]::before {
+  content: "32px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="48px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="48px"]::before {
+  content: "48px";
 }
 
 @media screen and (max-width: 1200px) {

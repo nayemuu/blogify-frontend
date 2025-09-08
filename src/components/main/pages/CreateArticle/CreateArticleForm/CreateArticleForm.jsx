@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useRef, useState } from "react";
-import ReactQuill from "react-quill-new";
+import ReactQuill, { Quill } from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "./CreateArticleForm.css";
 import { Button } from "@/components/ui/button";
@@ -14,14 +14,40 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import { useGetTagsQuery } from "@/redux/features/tags/tagsApi";
 import { useCreateBlogMutation } from "@/redux/features/blogs/blogsApi";
 
+// ------------------------
+// 1. Custom font sizes
+// ------------------------
+const Size = Quill.import("attributors/style/size");
+const sizeOptions = [
+  "10px",
+  "11px",
+  "12px",
+  "14px",
+  "16px",
+  "18px",
+  "20px",
+  "22px",
+  "24px",
+  "26px",
+  "30px",
+  "32px",
+  "48px",
+];
+Size.whitelist = sizeOptions;
+Quill.register(Size, true);
+
 const modules = {
   toolbar: [
     [{ align: [] }], // align content
     ["bold", "italic", "underline"], // toggled buttons
     [{ header: [1, 2, 3, false] }],
+    [{ size: sizeOptions }],
     [{ list: "ordered" }, { list: "bullet" }],
     [{ color: [] }],
+    [{ background: [] }], // dropdown with defaults from theme
     ["link"],
+    ["blockquote"], //quotation,
+    ["code-block"], // black_text_editor like cmd
   ],
 }; // UIতে কি কি toolbar show করবে
 
@@ -31,9 +57,14 @@ const formats = [
   "italic",
   "underline",
   "header",
+  "size",
   "color",
+  "background",
   "link",
   "list",
+  "code",
+  "blockquote",
+  "code-block",
 ]; // UIএর toolbar কে ফাংশনাল করার জন্য
 // string ae extra specing thakle kaj korbe na
 
