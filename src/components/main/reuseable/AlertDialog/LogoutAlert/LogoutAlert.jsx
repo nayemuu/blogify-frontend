@@ -14,15 +14,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const LogoutAlert = ({ setShowLogoutModal }) => {
+  const { refreshToken } = useSelector((state) => state.auth);
   const [logout, { isLoading, isError, isSuccess, data, error }] =
     useLogoutMutation();
 
   const handleLogout = () => {
     // setShowLogoutModal(false);
-    logout();
+    if (refreshToken) {
+      logout(refreshToken);
+    } else {
+      toast.error("Something went wrong");
+    }
   };
 
   useEffect(() => {
