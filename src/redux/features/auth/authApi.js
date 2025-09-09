@@ -62,48 +62,7 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-
-    updateRefreshToken: builder.mutation({
-      query: (data) => ({
-        url: "/api/v1/auth/refresh-token",
-        method: "POST",
-        body: data,
-      }),
-      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-        try {
-          // console.log("inside updateRefreshToken arg = ", arg);
-          const result = await queryFulfilled;
-          // console.log("inside updateRefreshToken result = ", result);
-
-          if (result?.data?.accessToken) {
-            // console.log("accessToken = ", result.data.accessToken);
-            // console.log("refreshToken = ", arg.refreshToken);
-
-            dispatch(
-              userLoggedIn({
-                accessToken: result.data.accessToken,
-                refreshToken: arg.refreshToken,
-              })
-            );
-
-            localStorage.setItem(
-              "auth",
-              JSON.stringify({
-                accessToken: result.data.accessToken,
-                refreshToken: arg.refreshToken,
-              })
-            );
-          }
-        } catch (error) {
-          //
-        }
-      },
-    }),
   }),
 });
 
-export const {
-  useLoginMutation,
-  useLogoutMutation,
-  useUpdateRefreshTokenMutation,
-} = authApi;
+export const { useLoginMutation, useLogoutMutation } = authApi;

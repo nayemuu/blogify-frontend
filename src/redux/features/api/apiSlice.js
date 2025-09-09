@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { unauthorized } from "next/navigation";
+import { userLoggedIn } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
@@ -22,7 +22,59 @@ export const apiSlice = createApi({
     let results = await baseQuery(args, api, extraOptions);
     // console.log("results = ", results);
     if (results?.error?.status === 401) {
-      console.log("unauthorized");
+      console.log("Access token expired → trying refresh...");
+      const refreshToken = api.getState()?.auth?.refreshToken;
+      if (refreshToken) {
+        // authApi.endpoints.updateRefreshToken.initiate({refreshToken})
+        // Try refreshing the token
+        const refreshResult = await baseQuery(
+          {
+            url: "/api/v1/auth/refresh-token",
+            method: "POST",
+            body: { refreshToken },
+          },
+          api,
+          extraOptions
+        );
+
+        // console.log("refreshResult = ", refreshResult);
+        if (refreshResult?.data?.accessToken) {
+          // console.log("accessToken = ", refreshResult.data.accessToken);
+
+          // console.log("inside 1");
+          // console.log("pre accessToken = ", api.getState()?.auth?.accessToken);
+          api.dispatch(
+            userLoggedIn({
+              accessToken: refreshResult.data.accessToken,
+              refreshToken: refreshToken,
+            })
+          );
+
+          // console.log("curr accessToken = ", api.getState()?.auth?.accessToken);
+          // console.log("inside 2");
+
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({
+              accessToken: refreshResult.data.accessToken,
+              refreshToken: refreshToken,
+            })
+          );
+
+          // retry original query
+          console.log("Refresh success → retrying original query...");
+          //approch 1
+          // let results = await baseQuery(args, api, extraOptions);//hey chatgpt should we await it, just return  baseQuery(args, api, extraOptions);
+          // console.log("results ", results);
+          // return results;
+
+          //approch 2
+          return baseQuery(args, api, extraOptions); // ✅ cleaner
+        } else {
+          console.log("inside , Refresh failed → logging out...");
+        }
+      }
+      console.log("Refresh failed → logging out...");
     }
 
     if (results?.error?.status === "FETCH_ERROR") {
