@@ -53,7 +53,9 @@ export const authApi = apiSlice.injectEndpoints({
           //   console.log("inside login result = ", result);
           dispatch(userLoggedOut());
           localStorage.removeItem("auth");
-          dispatch(apiSlice.util.resetApiState());
+          setTimeout(() => {
+            dispatch(apiSlice.util.resetApiState());
+          }, 1);
           toast.success("Log Out Successfully");
         } catch (error) {
           //
@@ -63,4 +65,4 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation } = authApi;

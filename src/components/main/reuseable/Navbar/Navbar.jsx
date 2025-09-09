@@ -18,13 +18,13 @@ import {
 import Hamburger from "./Hamburger/Hamburger";
 import MobileNav from "./MobileNav";
 import LoginModal from "../Modals/LoginModal/LoginModal";
-
+import { AlertDialog } from "@/components/ui/alert-dialog";
 import { Dialog } from "@/components/ui/dialog";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "@/components/ui/avatar";
 import { userLoggedOut } from "@/redux/features/auth/authSlice";
 import { clearProfileInfo } from "@/redux/features/profile/profileSlice";
-// import LogoutAlert from "../AlertDialog/LogoutAlert/LogoutAlert";
+import LogoutAlert from "../AlertDialog/LogoutAlert/LogoutAlert";
 
 const navLinks = [
   {
@@ -140,9 +140,9 @@ const Navbar = () => {
 
         {showMobileMenu && navLinks && <MobileNav navLinks={navLinks} />}
 
-        {/* <AlertDialog open={showLoginModal} onOpenChange={setShowLoginModal}>
-          <LogoutAlert />
-        </AlertDialog> */}
+        <AlertDialog open={showLogoutModal} onOpenChange={setShowLogoutModal}>
+          <LogoutAlert setShowLogoutModal={setShowLogoutModal} />
+        </AlertDialog>
 
         <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
           <LoginModal setShowLoginModal={setShowLoginModal} />

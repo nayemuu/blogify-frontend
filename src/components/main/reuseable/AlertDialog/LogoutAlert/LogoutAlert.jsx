@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,20 +12,45 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useLogoutMutation } from "@/redux/features/auth/authApi";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
-const LogoutAlert = () => {
+const LogoutAlert = ({ setShowLogoutModal }) => {
+  const [logout, { isLoading, isError, isSuccess, data, error }] =
+    useLogoutMutation();
+
+  const handleLogout = () => {
+    // setShowLogoutModal(false);
+    logout();
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowLogoutModal(false);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      console.log("error = ", error);
+      toast.error("Something went wrong");
+    }
+  }, [isError]);
+
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+        <AlertDialogTitle>Are You Sure?</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. This will permanently delete your
-          account and remove your data from our servers.
+          You want to logout from Blogify!
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction>Continue</AlertDialogAction>
+        <Button onClick={handleLogout} disabled={isLoading}>
+          Continue
+        </Button>
       </AlertDialogFooter>
     </AlertDialogContent>
   );
