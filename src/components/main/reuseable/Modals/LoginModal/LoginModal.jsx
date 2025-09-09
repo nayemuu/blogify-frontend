@@ -25,8 +25,8 @@ const LoginModal = ({ setShowLoginModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("email = ", email);
-    console.log("password = ", password);
+    // console.log("email = ", email);
+    // console.log("password = ", password);
 
     login({ email: email.trim(), password: password.trim() });
   };
@@ -84,7 +84,9 @@ const LoginModal = ({ setShowLoginModal }) => {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Login</Button>
+            <Button type="submit" disabled={isLoading}>
+              Login
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

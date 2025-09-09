@@ -1,6 +1,8 @@
 import { apiSlice } from "../api/apiSlice";
 import { profileApi } from "../profile/profileApi";
-import { userLoggedIn } from "./authSlice";
+import { userLoggedIn, userLoggedOut } from "./authSlice";
+import { toast } from "sonner";
+
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -32,6 +34,27 @@ export const authApi = apiSlice.injectEndpoints({
               })
             );
           }
+        } catch (error) {
+          //
+        }
+      },
+    }),
+
+    logout: builder.mutation({
+      query: (data) => ({
+        url: "/api/v1/auth/logout",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          //   console.log("inside authApi arg = ", arg);
+          const result = await queryFulfilled;
+          //   console.log("inside login result = ", result);
+          dispatch(userLoggedOut());
+          localStorage.removeItem("auth");
+          dispatch(apiSlice.util.resetApiState());
+          toast.success("Log Out Successfully");
         } catch (error) {
           //
         }

@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "@/components/ui/avatar";
 import { userLoggedOut } from "@/redux/features/auth/authSlice";
 import { clearProfileInfo } from "@/redux/features/profile/profileSlice";
+// import LogoutAlert from "../AlertDialog/LogoutAlert/LogoutAlert";
 
 const navLinks = [
   {
@@ -39,6 +40,7 @@ const navLinks = [
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { accessToken } = useSelector((state) => state.auth);
   const { name } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
@@ -97,7 +99,7 @@ const Navbar = () => {
 
                   <DropdownMenuItem
                     className="cursor-pointer"
-                    onClick={handleLogout}
+                    onClick={() => setShowLogoutModal(true)}
                   >
                     Logout
                   </DropdownMenuItem>
@@ -137,6 +139,10 @@ const Navbar = () => {
         </div>
 
         {showMobileMenu && navLinks && <MobileNav navLinks={navLinks} />}
+
+        {/* <AlertDialog open={showLoginModal} onOpenChange={setShowLoginModal}>
+          <LogoutAlert />
+        </AlertDialog> */}
 
         <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
           <LoginModal setShowLoginModal={setShowLoginModal} />
