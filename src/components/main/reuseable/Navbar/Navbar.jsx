@@ -25,6 +25,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { userLoggedOut } from "@/redux/features/auth/authSlice";
 import { clearProfileInfo } from "@/redux/features/profile/profileSlice";
 import LogoutAlert from "../AlertDialog/LogoutAlert/LogoutAlert";
+import RegisterModal from "../Modals/LoginModal/RegisterModal";
 
 const navLinks = [
   {
@@ -40,6 +41,7 @@ const navLinks = [
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { accessToken } = useSelector((state) => state.auth);
   const { name } = useSelector((state) => state.profile);
@@ -56,12 +58,6 @@ const Navbar = () => {
   // useEffect(() => {
   //   console.log("name = ", name);
   // }, [name]);
-
-  const handleLogout = () => {
-    dispatch(userLoggedOut());
-    dispatch(clearProfileInfo());
-    localStorage.removeItem("auth");
-  };
 
   return (
     <>
@@ -117,7 +113,10 @@ const Navbar = () => {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem className="cursor-pointer">
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => setShowRegisterModal(true)}
+                  >
                     Sign Up
                   </DropdownMenuItem>
 
@@ -146,6 +145,10 @@ const Navbar = () => {
 
         <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
           <LoginModal setShowLoginModal={setShowLoginModal} />
+        </Dialog>
+
+        <Dialog open={showRegisterModal} onOpenChange={setShowRegisterModal}>
+          <RegisterModal setShowRegisterModal={setShowRegisterModal} />
         </Dialog>
       </div>
     </>

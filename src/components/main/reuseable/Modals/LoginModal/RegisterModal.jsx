@@ -18,10 +18,13 @@ import { useEffect, useState } from "react";
 import Error from "../../Error/Error";
 import { Icon } from "@iconify/react";
 
-const LoginModal = ({ setShowLoginModal }) => {
+const RegisterModal = ({ setShowRegisterModal }) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setConfirmShowPassword] = useState(false);
 
   const [login, { isLoading, isError, isSuccess, data, error }] =
     useLoginMutation();
@@ -36,7 +39,7 @@ const LoginModal = ({ setShowLoginModal }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      setShowLoginModal(false);
+      setShowRegisterModal(false);
     }
   }, [isSuccess]);
 
@@ -45,9 +48,22 @@ const LoginModal = ({ setShowLoginModal }) => {
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
-            <DialogTitle>Login</DialogTitle>
+            <DialogTitle>Sign Up</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="email">Name</Label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+
             <div className="grid gap-3">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -92,6 +108,41 @@ const LoginModal = ({ setShowLoginModal }) => {
                 </div>
               </div>
             </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="password">Confirm Password</Label>
+              <div className="relative flex w-full">
+                <Input
+                  id="password"
+                  name="password"
+                  className="pr-[40px]"
+                  placeholder="Retype your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+
+                <div className="absolute top-0 right-[8px] h-full flex items-center">
+                  {showConfirmPassword ? (
+                    <Icon
+                      icon="clarity:eye-line"
+                      className="text-[22px] hover:text-brand-primary cursor-pointer"
+                      onClick={() =>
+                        setConfirmShowPassword(!showConfirmPassword)
+                      }
+                    />
+                  ) : (
+                    <Icon
+                      icon="clarity:eye-hide-line"
+                      className="text-[22px] hover:text-brand-primary cursor-pointer"
+                      onClick={() =>
+                        setConfirmShowPassword(!showConfirmPassword)
+                      }
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
           {isError ? (
@@ -111,7 +162,7 @@ const LoginModal = ({ setShowLoginModal }) => {
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button type="submit" disabled={isLoading}>
-              Login
+              Sign Up
             </Button>
           </DialogFooter>
         </form>
@@ -120,4 +171,4 @@ const LoginModal = ({ setShowLoginModal }) => {
   );
 };
 
-export default LoginModal;
+export default RegisterModal;
