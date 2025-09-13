@@ -99,7 +99,8 @@
   --card-foreground: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.13 0.028 261.692);
-  --primary: oklch(0.21 0.034 264.665);
+  /* --primary: oklch(0.21 0.034 264.665); */
+  --primary: #43bfc7;
   --primary-foreground: oklch(0.985 0.002 247.839);
   --secondary: oklch(0.967 0.003 264.542);
   --secondary-foreground: oklch(0.21 0.034 264.665);
@@ -133,7 +134,8 @@
   --card-foreground: oklch(0.985 0.002 247.839);
   --popover: oklch(0.21 0.034 264.665);
   --popover-foreground: oklch(0.985 0.002 247.839);
-  --primary: oklch(0.928 0.006 264.531);
+  /* --primary: oklch(0.928 0.006 264.531); */
+  --primary: #43bfc7;
   --primary-foreground: oklch(0.21 0.034 264.665);
   --secondary: oklch(0.278 0.033 256.848);
   --secondary-foreground: oklch(0.985 0.002 247.839);
@@ -166,5 +168,32 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* 
+  Custom utility styles using Tailwind's @layer directive.
+
+  - @layer utilities {}: 
+    Allows us to define custom utility classes that integrate with Tailwind’s layer system.
+
+  - .modal-title: 
+    A custom class for modal titles. 
+    Instead of writing raw CSS properties, we use Tailwind's @apply to 
+    compose utility classes and keep consistency with the Tailwind design system.
+
+  ⚠️ Note: 
+  In most cases, you don’t need to use !important when styling with @apply. 
+  Since Tailwind’s utilities and custom classes inside @layer utilities 
+  follow Tailwind’s layer order (base → components → utilities), 
+  your custom utility will usually override as expected.
+*/
+@layer utilities {
+  .modal-title {
+    @apply text-[#13264D] text-[24px] leading-[26px] font-medium;
+  }
+
+  .modal-slogan {
+    @apply text-[#13264D] text-[14px] leading-[16px] font-medium;
   }
 }

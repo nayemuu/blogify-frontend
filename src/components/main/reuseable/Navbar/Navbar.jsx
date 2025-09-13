@@ -148,7 +148,10 @@ const Navbar = () => {
         </Dialog>
 
         <Dialog open={showRegisterModal} onOpenChange={setShowRegisterModal}>
-          <RegisterModal setShowRegisterModal={setShowRegisterModal} />
+          <RegisterModal
+            setShowRegisterModal={setShowRegisterModal}
+            setShowLoginModal={setShowLoginModal}
+          />
         </Dialog>
       </div>
     </>
