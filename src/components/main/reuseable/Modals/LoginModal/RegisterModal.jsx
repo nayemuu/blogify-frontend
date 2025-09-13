@@ -27,7 +27,7 @@ import { Icon } from "@iconify/react";
 import OtpVerificationTimer from "./OtpVerificationTimer/OtpVerificationTimer";
 import LoaderInsideButton from "../../Loader/LoaderInsideButton";
 
-const RegisterModal = ({ setShowRegisterModal, setShowLoginModal }) => {
+const RegisterModal = ({ open, setShowRegisterModal, setShowLoginModal }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,12 +35,26 @@ const RegisterModal = ({ setShowRegisterModal, setShowLoginModal }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setConfirmShowPassword] = useState(false);
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(30);
+  const [seconds, setSeconds] = useState(0);
 
   const [otp, setOtp] = useState("");
 
   const [login, { isLoading, isError, isSuccess, data, error }] =
     useLoginMutation();
+
+  // Reset state when modal closes
+  useEffect(() => {
+    if (!open) {
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setShowPassword(false);
+      setConfirmShowPassword(false);
+      // setMinutes(0);
+      // setSeconds(0);
+    }
+  }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

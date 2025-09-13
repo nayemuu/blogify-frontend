@@ -17,14 +17,25 @@ import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useEffect, useState } from "react";
 import Error from "../../Error/Error";
 import { Icon } from "@iconify/react";
+import LoaderInsideButton from "../../Loader/LoaderInsideButton";
+import { toast } from "sonner";
 
-const LoginModal = ({ setShowLoginModal }) => {
+const LoginModal = ({ open, setShowRegisterModal, setShowLoginModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const [login, { isLoading, isError, isSuccess, data, error }] =
     useLoginMutation();
+
+  // Reset state when modal closes
+  useEffect(() => {
+    if (!open) {
+      setEmail("");
+      setPassword("");
+      setShowPassword(false);
+    }
+  }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,13 +51,35 @@ const LoginModal = ({ setShowLoginModal }) => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (isError) {
+      // console.log("error = ", error);
+      if (error?.data?.message) {
+        toast.error(error.data.message);
+        // toast.success(error.data.message);
+      } else {
+        toast.error("Somethimg went wrong");
+      }
+    }
+  }, [isError]);
+
   return (
     <>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <DialogHeader>
+          {/* <DialogHeader>
             <DialogTitle>Login</DialogTitle>
+          </DialogHeader> */}
+
+          <DialogHeader className="flex flex-col gap-2">
+            <DialogTitle className="modal-title">Login</DialogTitle>
+
+            <div className="modal-slogan">
+              Please enter your username/password to
+              <span className="text-brand-primary"> sign in</span>.
+            </div>
           </DialogHeader>
+
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="email">Email</Label>
@@ -94,26 +127,45 @@ const LoginModal = ({ setShowLoginModal }) => {
             </div>
           </div>
 
-          {isError ? (
-            <Error
-              message={
-                error?.data?.message
-                  ? error.data.message
-                  : "Something went wrong"
-              }
-            />
-          ) : (
-            <></>
-          )}
+          <div className="flex flex-col gap-3">
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? <LoaderInsideButton /> : <></>}
+              Login
+            </Button>
 
-          <DialogFooter>
+            {/* {isError ? (
+              <Error
+                message={
+                  error?.data?.message
+                    ? error.data.message
+                    : "Something went wrong"
+                }
+              />
+            ) : (
+              <></>
+            )} */}
+
+            <div className="text-center text-[14px] leading-[16px]">
+              Already have an account?{" "}
+              <span
+                onClick={() => {
+                  setShowRegisterModal(true);
+                  setShowLoginModal(false);
+                }}
+                className="text-brand-primary cursor-pointer"
+              >
+                Sign Up
+              </span>
+            </div>
+          </div>
+          {/* <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button type="submit" disabled={isLoading}>
               Login
             </Button>
-          </DialogFooter>
+          </DialogFooter> */}
         </form>
       </DialogContent>
     </>

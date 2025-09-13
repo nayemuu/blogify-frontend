@@ -56,8 +56,8 @@ const Navbar = () => {
   // }, [profile]);
 
   // useEffect(() => {
-  //   console.log("name = ", name);
-  // }, [name]);
+  //   console.log("showLoginModal = ", showLoginModal);
+  // }, [showLoginModal]);
 
   return (
     <>
@@ -144,11 +144,16 @@ const Navbar = () => {
         </AlertDialog>
 
         <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
-          <LoginModal setShowLoginModal={setShowLoginModal} />
+          <LoginModal
+            open={showLoginModal}
+            setShowRegisterModal={setShowRegisterModal}
+            setShowLoginModal={setShowLoginModal}
+          />
         </Dialog>
 
         <Dialog open={showRegisterModal} onOpenChange={setShowRegisterModal}>
           <RegisterModal
+            open={showRegisterModal}
             setShowRegisterModal={setShowRegisterModal}
             setShowLoginModal={setShowLoginModal}
           />
