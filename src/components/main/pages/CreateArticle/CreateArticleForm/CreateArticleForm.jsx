@@ -162,7 +162,7 @@ const CreateArticleForm = () => {
   };
 
   let selectedTagsTitle = "Select Tag";
-  if (selectedTags.length & tagsData?.data?.length) {
+  if (selectedTags?.length && tagsData?.data?.length) {
     selectedTags.map((itemId, index) => {
       tagsData.data.map((tag) => {
         if (itemId === tag.id) {
