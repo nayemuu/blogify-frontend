@@ -3,11 +3,15 @@
 import { useGetBlogsQuery } from "@/redux/features/blogs/blogsApi";
 import { useEffect, useState } from "react";
 import BlogCard from "../../reuseable/Cards/BlogCard/BlogCard";
+import ReactPaginate from "react-paginate";
+import JumpToPageSection from "../../reuseable/JumpToPageSection/JumpToPageSection";
 
 const Home = () => {
   const limit = 5;
   const [offset, setOffset] = useState(0);
   const [initialPage, setInitialPage] = useState(0); // Initialize initialPage state
+  const [pageCount, setPageCount] = useState(0);
+  const [jumpToPage, setJumpToPage] = useState("");
 
   const { isLoading, isError, isSuccess, data, error, isFetching } =
     useGetBlogsQuery(
@@ -15,17 +19,59 @@ const Home = () => {
       { refetchOnMountOrArgChange: true }
     );
 
-  useEffect(() => {
-    if (isSuccess) {
-      console.log("Inside Articles Components, data = ", data);
-    }
-  }, [isSuccess, data]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     console.log("Inside Articles Components, data = ", data);
+  //   }
+  // }, [isSuccess, data]);
 
-  useEffect(() => {
-    if (isError) {
-      console.log("Inside Articles Components, error = ", error);
+  // useEffect(() => {
+  //   if (isError) {
+  //     console.log("Inside Articles Components, error = ", error);
+  //   }
+  // }, [error, isError]);
+
+  // pagination logic
+
+  if (isSuccess && !isFetching && !isLoading && data && data.results) {
+    const pageCountTemp = Math.ceil(data.count / limit);
+
+    if (pageCount !== pageCountTemp) {
+      setPageCount(pageCountTemp);
+      setInitialPage(0);
+      setOffset(0);
     }
-  }, [error, isError]);
+  }
+
+  const handlePageClick = (event) => {
+    if (
+      event.nextSelectedPage !== undefined &&
+      event.nextSelectedPage !== null
+    ) {
+      const newOffset = (event.nextSelectedPage * limit) % data.count;
+      console.log("event.nextSelectedPage = ", event.nextSelectedPage);
+      console.log(
+        `User requested page number ${event.selected}, which is offset ${newOffset}`
+      );
+      setOffset(newOffset);
+      setInitialPage(event.nextSelectedPage); // Update the initialPage state
+    }
+  };
+
+  const handlePageJump = () => {
+    if (parseInt(jumpToPage) && parseInt(jumpToPage) <= pageCount) {
+      let targetPage = parseInt(jumpToPage);
+
+      const newOffset = ((targetPage - 1) * limit) % data.count;
+      setOffset(newOffset);
+      setInitialPage(targetPage - 1);
+      setJumpToPage("");
+    } else {
+      errorToastMessage("Provide a valid page number");
+    }
+  };
+
+  //end of pagination logic
 
   return (
     <div className="container">
@@ -34,6 +80,39 @@ const Home = () => {
           data.data.map((blog) => <BlogCard key={blog.id} blog={blog} />)
         ) : (
           <></>
+        )}
+
+        {pageCount > 1 && (
+          <div className="pt-[50px] flex justify-between items-center gap-6 flex-wrap">
+            <div className="shrink-0">
+              <ReactPaginate
+                key={initialPage} // Force re-render on initialPage change
+                breakLabel="..."
+                nextLabel=""
+                onClick={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={1}
+                pageCount={pageCount} // total number of page
+                initialPage={initialPage} // Pass the initialPage state
+                previousLabel=""
+                renderOnZeroPageCount={null}
+                containerClassName="flex flex-wrap gap-x-[10px] justify-center"
+                pageLinkClassName="unselected-page"
+                activeLinkClassName="active-page"
+                previousClassName="hide"
+                nextClassName="hide"
+              />
+            </div>
+
+            <JumpToPageSection
+              pageCount={pageCount}
+              jumpToPage={jumpToPage}
+              setJumpToPage={setJumpToPage}
+              handlePageJump={handlePageJump}
+              isLoading={isLoading}
+              isFetching={isFetching}
+            />
+          </div>
         )}
       </div>
     </div>

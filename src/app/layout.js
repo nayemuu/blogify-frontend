@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./App.css";
 import StoreProvider from "@/redux/provider/StoreProvider";
 import AuthChecking from "@/components/main/reuseable/AuthChecking/AuthChecking";
 import { Toaster } from "sonner";

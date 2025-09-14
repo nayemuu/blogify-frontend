@@ -24,7 +24,8 @@ export const blogsApi = apiWithTag.injectEndpoints({
     }),
 
     getBlogs: builder.query({
-      query: () => `/api/v1/blogs`,
+      query: ({ limit, offset }) =>
+        `/api/v1/blogs/?limit=${limit}&offset=${offset}`,
       keepUnusedDataFor: 0,
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
