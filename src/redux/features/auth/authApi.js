@@ -40,6 +40,23 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
 
+    register: builder.mutation({
+      query: (data) => ({
+        url: "/api/v1/auth/register",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          //   console.log("inside register arg = ", arg);
+          // const result = await queryFulfilled;
+          //   console.log("inside register result = ", result);
+        } catch (error) {
+          //
+        }
+      },
+    }),
+
     logout: builder.mutation({
       query: (data) => ({
         url: "/api/v1/auth/logout",
