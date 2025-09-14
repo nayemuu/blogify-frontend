@@ -33,8 +33,8 @@ const navLinks = [
     href: "/",
   },
   {
-    title: "Create Article",
-    href: "/create-article",
+    title: "Create Blog",
+    href: "/create-blog",
   },
 ];
 
