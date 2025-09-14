@@ -14,6 +14,7 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import { useGetTagsQuery } from "@/redux/features/tags/tagsApi";
 import { useCreateBlogMutation } from "@/redux/features/blogs/blogsApi";
 import { toast } from "sonner";
+import LoaderInsideButton from "@/components/main/reuseable/Loader/LoaderInsideButton";
 
 // ------------------------
 // 1. Custom font sizes
@@ -255,8 +256,8 @@ const CreateArticleForm = () => {
         title="Cover Image"
       />
 
-      <Button className="max-w-[200px] h-[40px] text-[20px] bg-brand-primary">
-        Submit
+      <Button className="max-w-[200px] h-[40px] text-[20px]" type="submit">
+        {isLoading ? <LoaderInsideButton /> : <></>} Submit
       </Button>
     </form>
   );

@@ -86,7 +86,9 @@ const Blog = ({ blog }) => {
           )}
 
           {/* content Section */}
-          <div className="ql-editor">{parse(blog.content)}</div>
+          <div className="ql-snow">
+            <div className="ql-editor">{parse(blog.content)}</div>
+          </div>
         </div>
       </div>
     </div>

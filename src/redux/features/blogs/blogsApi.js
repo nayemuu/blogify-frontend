@@ -1,6 +1,8 @@
 import { apiSlice } from "../api/apiSlice";
 
-export const blogsApi = apiSlice.injectEndpoints({
+const apiWithTag = apiSlice.enhanceEndpoints({ addTagTypes: ["MyBlogs"] });
+
+export const blogsApi = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
     createBlog: builder.mutation({
       query: (data) => ({
