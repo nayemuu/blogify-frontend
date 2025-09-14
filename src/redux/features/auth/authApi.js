@@ -57,6 +57,23 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
 
+    verifyEmail: builder.mutation({
+      query: (data) => ({
+        url: "/api/v1/auth/verify-email",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          //   console.log("inside register arg = ", arg);
+          // const result = await queryFulfilled;
+          //   console.log("inside register result = ", result);
+        } catch (error) {
+          //
+        }
+      },
+    }),
+
     logout: builder.mutation({
       query: (data) => ({
         url: "/api/v1/auth/logout",
@@ -82,4 +99,9 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useVerifyEmailMutation,
+  useLogoutMutation,
+} = authApi;
