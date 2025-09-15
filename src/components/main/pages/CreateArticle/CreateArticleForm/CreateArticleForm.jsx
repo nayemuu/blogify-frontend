@@ -79,6 +79,14 @@ const CreateArticleForm = () => {
   const tagsInputRef = useRef();
   const formRef = useRef(null);
 
+  const clearState = () => {
+    setTitle("");
+    setTextEditorValue("");
+    setCoverImage("");
+    setShowTagsDropdown(false);
+    setSelectedTags([]);
+  };
+
   const {
     isLoading: tagsIsLoading,
     isError: tagsIsError,
@@ -99,6 +107,8 @@ const CreateArticleForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log("data = ", data);
+      clearState();
+      toast.success("Blog has been published successfully.");
     }
   }, [isSuccess]);
 

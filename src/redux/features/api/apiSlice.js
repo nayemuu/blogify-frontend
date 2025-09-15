@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userLoggedIn } from "../auth/authSlice";
+import { userLoggedIn, userLoggedOut } from "../auth/authSlice";
 import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
@@ -73,11 +73,32 @@ export const apiSlice = createApi({
           return baseQuery(args, api, extraOptions); // ✅ cleaner
         } else {
           // console.log("inside , Refresh failed → logging out...");
-          return toast.error("User Session Expired! Please Login Again.");
+
+          api.dispatch(userLoggedOut());
+          localStorage.removeItem("auth");
+          setTimeout(() => {
+            api.dispatch(apiSlice.util.resetApiState());
+          }, 1);
+
+          // show toast, but don't return its value
+          toast.error("User Session Expired! Please Login Again.");
+
+          // return a valid error object for RTK Query
+          return { error: { status: 401, data: "Session expired" } };
         }
       }
       // console.log("Refresh failed → logging out...");
-      return toast.error("User Session Expired! Please Login Again.");
+      api.dispatch(userLoggedOut());
+      localStorage.removeItem("auth");
+      setTimeout(() => {
+        api.dispatch(apiSlice.util.resetApiState());
+      }, 1);
+
+      // show toast, but don't return its value
+      toast.error("User Session Expired! Please Login Again.");
+
+      // return a valid error object for RTK Query
+      return { error: { status: 401, data: "Session expired" } };
     }
 
     if (results?.error?.status === "FETCH_ERROR") {
