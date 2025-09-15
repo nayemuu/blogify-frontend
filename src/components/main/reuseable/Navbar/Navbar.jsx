@@ -69,7 +69,11 @@ const Navbar = () => {
             {navLinks?.length ? (
               <nav className="hidden gap-6 lg:flex">
                 {navLinks?.map((item, index) => (
-                  <Link key={index} href={item.href}>
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="hover:text-primary"
+                  >
                     {item.title}
                   </Link>
                 ))}
