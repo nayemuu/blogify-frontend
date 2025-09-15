@@ -2,6 +2,15 @@ import Image from "next/image";
 import "./BlogCard.css";
 import moment from "moment";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const saveSvg = (
   <svg
@@ -88,10 +97,37 @@ const BlogCard = ({ blog }) => {
             {/* Tag list */}
             <div className="flex gap-1">{TagHandler(blog.tags)}</div>
 
-            <div>
+            <div className="flex gap-2 items-center">
               <span className="cursor-pointer text-[#757575] hover:text-brand-primary">
                 {saveSvg}
               </span>
+
+              {false ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <div className="text-[#757575] hover:text-white bg-brand-primary-soft hover:bg-primary aspect-square flex justify-center items-center rounded-full p-1.5 cursor-pointer">
+                      <Icon icon="charm:menu-kebab" width="15" height="15" />
+                    </div>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem className="text-[14px] leading-[16px] cursor-pointer">
+                      <Icon icon="bytesize:edit" width="15" height="15" />
+                      Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-[14px] leading-[16px] cursor-pointer">
+                      <Icon
+                        icon="fluent:delete-24-regular"
+                        width="15"
+                        height="15"
+                      />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
 

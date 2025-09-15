@@ -71,7 +71,7 @@ const Blog = ({ blog }) => {
           </div>
 
           {blog.tags.length ? (
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-2">
               {blog.tags.map((tag) => (
                 <div
                   key={tag.id}
