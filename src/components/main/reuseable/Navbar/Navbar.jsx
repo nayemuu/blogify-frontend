@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import logo from "@/assets/components/Navbar/Nayem-light.svg";
+import logo from "@/assets/components/Navbar/care2shareLogo.png";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import SearchBar from "./SearchBar/SearchBar";
