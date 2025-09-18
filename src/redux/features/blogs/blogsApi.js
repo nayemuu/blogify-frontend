@@ -23,6 +23,20 @@ export const blogsApi = apiWithTag.injectEndpoints({
       },
     }),
 
+    getMyBlogs: builder.query({
+      query: ({ limit, offset }) =>
+        `/api/v1/user/blogs/?limit=${limit}&offset=${offset}`,
+      // providesTags: ["MyBlogs"],
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          // console.log("inside useProfileQuery = ", result);
+        } catch (error) {
+          //
+        }
+      },
+    }),
+
     getBlogs: builder.query({
       query: ({ limit, offset }) =>
         `/api/v1/blogs/?limit=${limit}&offset=${offset}`,
@@ -39,4 +53,5 @@ export const blogsApi = apiWithTag.injectEndpoints({
   }),
 });
 
-export const { useCreateBlogMutation, useGetBlogsQuery } = blogsApi;
+export const { useCreateBlogMutation, useGetMyBlogsQuery, useGetBlogsQuery } =
+  blogsApi;

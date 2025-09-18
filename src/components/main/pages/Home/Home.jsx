@@ -7,7 +7,7 @@ import ReactPaginate from "react-paginate";
 import JumpToPageSection from "../../reuseable/JumpToPageSection/JumpToPageSection";
 
 const Home = () => {
-  const limit = 5;
+  const limit = 1;
   const [offset, setOffset] = useState(0);
   const [initialPage, setInitialPage] = useState(0); // Initialize initialPage state
   const [pageCount, setPageCount] = useState(0);
@@ -76,8 +76,8 @@ const Home = () => {
   return (
     <div className="container">
       <div className="flex flex-col gap-5">
-        {data?.data?.length ? (
-          data.data.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+        {data?.blogs?.length ? (
+          data.blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
         ) : (
           <></>
         )}

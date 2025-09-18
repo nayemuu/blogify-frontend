@@ -93,9 +93,9 @@ const Navbar = () => {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent align="end">
-                  {/* <DropdownMenuItem className="cursor-pointer">
-                    Profile
-                  </DropdownMenuItem> */}
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Link href="/profile">Profile</Link>
+                  </DropdownMenuItem>
 
                   <DropdownMenuItem
                     className="cursor-pointer"
