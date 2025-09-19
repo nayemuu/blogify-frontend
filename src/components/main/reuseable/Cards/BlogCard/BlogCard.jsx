@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSelector } from "react-redux";
 
 const saveSvg = (
   <svg
@@ -80,6 +81,10 @@ const TagHandler = (tags) => {
 };
 
 const BlogCard = ({ blog }) => {
+  const { id } = useSelector((state) => state.profile);
+  // console.log("id = ", id);
+  // console.log("blog = ", blog.author.id);
+
   return (
     <div className="blog-card-shadow border-2 border-transparent hover:border-brand-primary rounded-[15px] overflow-hidden">
       <div className="bg-[#FFFFFF] rounded-[12px] flex overflow-hidden h-[171px]">
@@ -102,7 +107,7 @@ const BlogCard = ({ blog }) => {
                 {saveSvg}
               </span>
 
-              {false ? (
+              {id === blog?.author?.id ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <div className="text-[#757575] hover:text-white bg-brand-primary-soft hover:bg-primary aspect-square flex justify-center items-center rounded-full p-1.5 cursor-pointer">

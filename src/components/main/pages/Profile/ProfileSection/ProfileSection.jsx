@@ -2,6 +2,9 @@
 
 import { useProfileQuery } from "@/redux/features/profile/profileApi";
 import { useEffect } from "react";
+import backgroundOfCoverPhoto from "@/assets/pages/profile/backgroundOfCoverPhoto.png";
+import Image from "next/image";
+import "./ProfileSection.css";
 
 function ProfileSection(props) {
   const { isLoading, isError, isSuccess, data, error } = useProfileQuery();
@@ -34,7 +37,17 @@ function ProfileSection(props) {
           </div>
         </div>
 
-        <div>Photo</div>
+        <div className="relative cover-photo-background">
+          <div className="bg-primary rounded-full aspect-square h-[260px] z-[2]">
+            {data?.data?.user?.name ? (
+              <div className="w-full h-full flex text-white lg:text-[150px] justify-center items-center p-1">
+                {data.data.user.name[0]?.toUpperCase()}
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   ) : (

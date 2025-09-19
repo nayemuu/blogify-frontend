@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
+  id: "",
   name: "",
   picture: "",
 };
@@ -10,11 +11,13 @@ const profileSlice = createSlice({
   initialState,
   reducers: {
     initiateProfileInfo: (state, action) => {
+      state.id = action.payload.id;
       state.name = action.payload.name;
       state.picture = action.payload.picture;
     },
 
     clearProfileInfo: (state) => {
+      state.id = "";
       state.name = "";
       state.picture = "";
     },
