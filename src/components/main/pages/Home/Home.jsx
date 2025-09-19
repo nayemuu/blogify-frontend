@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import BlogCard from "../../reuseable/Cards/BlogCard/BlogCard";
 import ReactPaginate from "react-paginate";
 import JumpToPageSection from "../../reuseable/JumpToPageSection/JumpToPageSection";
+import ReuseableBlogsListWithPaginations from "../../reuseable/ReuseableBlogsListWithPaginations/ReuseableBlogsListWithPaginations";
+import { toast } from "sonner";
 
 const Home = () => {
-  const limit = 1;
+  const limit = 5;
   const [offset, setOffset] = useState(0);
   const [initialPage, setInitialPage] = useState(0); // Initialize initialPage state
   const [pageCount, setPageCount] = useState(0);
@@ -61,13 +63,16 @@ const Home = () => {
   const handlePageJump = () => {
     if (parseInt(jumpToPage) && parseInt(jumpToPage) <= pageCount) {
       let targetPage = parseInt(jumpToPage);
+      console.log("targetPage = ", targetPage);
 
       const newOffset = ((targetPage - 1) * limit) % data.count;
       setOffset(newOffset);
       setInitialPage(targetPage - 1);
       setJumpToPage("");
+    } else if (parseInt(jumpToPage) > pageCount) {
+      toast.error(`You only have ${pageCount} pages`);
     } else {
-      errorToastMessage("Provide a valid page number");
+      toast.error("Provide a valid page number");
     }
   };
 
@@ -75,46 +80,17 @@ const Home = () => {
 
   return (
     <div className="container">
-      <div className="flex flex-col gap-5">
-        {data?.blogs?.length ? (
-          data.blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
-        ) : (
-          <></>
-        )}
-
-        {pageCount > 1 && (
-          <div className="pt-[50px] flex justify-between items-center gap-6 flex-wrap">
-            <div className="shrink-0">
-              <ReactPaginate
-                key={initialPage} // Force re-render on initialPage change
-                breakLabel="..."
-                nextLabel=""
-                onClick={handlePageClick}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={1}
-                pageCount={pageCount} // total number of page
-                initialPage={initialPage} // Pass the initialPage state
-                previousLabel=""
-                renderOnZeroPageCount={null}
-                containerClassName="flex flex-wrap gap-x-[10px] justify-center"
-                pageLinkClassName="unselected-page"
-                activeLinkClassName="active-page"
-                previousClassName="hide"
-                nextClassName="hide"
-              />
-            </div>
-
-            <JumpToPageSection
-              pageCount={pageCount}
-              jumpToPage={jumpToPage}
-              setJumpToPage={setJumpToPage}
-              handlePageJump={handlePageJump}
-              isLoading={isLoading}
-              isFetching={isFetching}
-            />
-          </div>
-        )}
-      </div>
+      <ReuseableBlogsListWithPaginations
+        blogs={data?.blogs ? data.blogs : []}
+        pageCount={pageCount}
+        initialPage={initialPage}
+        handlePageClick={handlePageClick}
+        jumpToPage={jumpToPage}
+        setJumpToPage={setJumpToPage}
+        handlePageJump={handlePageJump}
+        isLoading={isLoading}
+        limit={limit}
+      />
     </div>
   );
 };
