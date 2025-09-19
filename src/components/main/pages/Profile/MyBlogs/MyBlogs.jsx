@@ -3,9 +3,10 @@
 import ReuseableBlogsListWithPaginations from "@/components/main/reuseable/ReuseableBlogsListWithPaginations/ReuseableBlogsListWithPaginations";
 import { useGetMyBlogsQuery } from "@/redux/features/blogs/blogsApi";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const MyBlogs = () => {
-  const limit = 2;
+  const limit = 5;
   const [offset, setOffset] = useState(0);
   const [initialPage, setInitialPage] = useState(0); // Initialize initialPage state
   const [pageCount, setPageCount] = useState(0);
@@ -47,13 +48,16 @@ const MyBlogs = () => {
   const handlePageJump = () => {
     if (parseInt(jumpToPage) && parseInt(jumpToPage) <= pageCount) {
       let targetPage = parseInt(jumpToPage);
+      console.log("targetPage = ", targetPage);
 
       const newOffset = ((targetPage - 1) * limit) % data.count;
       setOffset(newOffset);
       setInitialPage(targetPage - 1);
       setJumpToPage("");
+    } else if (parseInt(jumpToPage) > pageCount) {
+      toast.error(`You only have ${pageCount} pages`);
     } else {
-      errorToastMessage("Provide a valid page number");
+      toast.error("Provide a valid page number");
     }
   };
 
@@ -69,7 +73,8 @@ const MyBlogs = () => {
         jumpToPage={jumpToPage}
         setJumpToPage={setJumpToPage}
         handlePageJump={handlePageJump}
-        // isLoading={isLoading}
+        isLoading={isLoading}
+        limit={limit}
       />
     </div>
   );

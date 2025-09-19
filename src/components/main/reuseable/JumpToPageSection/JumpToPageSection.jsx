@@ -24,7 +24,13 @@ function JumpToPageSection({
         <input
           type="text"
           value={jumpToPage}
-          onChange={(e) => setJumpToPage(e.target.value)}
+          onChange={(e) => {
+            if (parseInt(e.target.value) && e.target.value !== NaN) {
+              setJumpToPage(parseInt(e.target.value));
+            } else if (e.target.value === "") {
+              setJumpToPage("");
+            }
+          }}
           placeholder="page no."
           className={`w-[80px] h-[34px] rounded-[3px] flex justify-center items-center border border-primary text-center px-1 ${
             jumpToPage > pageCount ? "text-red-400" : ""

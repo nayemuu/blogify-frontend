@@ -3,6 +3,7 @@
 import ReactPaginate from "react-paginate";
 import BlogCard from "../Cards/BlogCard/BlogCard";
 import JumpToPageSection from "../JumpToPageSection/JumpToPageSection";
+import BlogCardLoader from "../Cards/BlogCard/BlogCardLoader";
 
 const ReuseableBlogsListWithPaginations = ({
   blogs,
@@ -14,13 +15,16 @@ const ReuseableBlogsListWithPaginations = ({
   handlePageJump,
   isLoading,
   isFetching,
+  limit,
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      {blogs?.length ? (
+      {isLoading ? (
+        [...Array(limit)].map((_, i) => <BlogCardLoader key={i} />)
+      ) : blogs?.length ? (
         blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
       ) : (
-        <></>
+        <div>No Blogs found</div>
       )}
 
       {pageCount > 1 && (
