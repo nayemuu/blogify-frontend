@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSelector } from "react-redux";
+import LikeFilledSvg from "../../svg/LikeFilledSvg";
 
 const saveSvg = (
   <svg
@@ -153,7 +154,13 @@ const BlogCard = ({ blog }) => {
                   {blog.author.name}
                 </div>
                 <div className="flex gap-1 items-center">
-                  {likeSvg}
+                  {blog?.isLiked ? (
+                    <span className="text-primary">
+                      <LikeFilledSvg width={13} height={13} />
+                    </span>
+                  ) : (
+                    likeSvg
+                  )}
 
                   <span className="text-[12px] font-light text-[#757575] leading-[13px]">
                     ({blog.likesCount})
