@@ -4,6 +4,56 @@ import React from "react";
 import parse from "html-react-parser";
 import "react-quill-new/dist/quill.snow.css";
 import moment from "moment";
+import { Icon } from "@iconify/react";
+import "./Blog.css";
+
+let bigLikedSvg = (
+  <svg
+    width={21}
+    height={21}
+    viewBox="0 0 21 21"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clipPath="url(#clip0_1449_920)">
+      <path
+        d="M4.17825 21H1.74741C0.78051 21 0 20.2578 0 19.3383V11.4435C0 10.524 0.78051 9.78178 1.74741 9.78178H4.17825C5.14515 9.78178 5.92567 10.524 5.92567 11.4435V19.3383C5.92567 20.2578 5.14515 21 4.17825 21Z"
+        fill="url(#paint0_linear_1449_920)"
+      />
+      <path
+        d="M20.9923 12.7248C21.0738 11.9161 20.4875 11.2219 19.6992 11.0816C20.6078 10.8563 21.233 9.95163 20.9185 8.96939C20.701 8.28256 20.0137 7.82837 19.2604 7.82837H19.2254H13.7036L14.7598 4.31667C14.9385 3.71847 15.0317 3.09811 15.0317 2.47405V1.99032C15.0317 0.871448 14.0609 -0.0332467 12.8726 -1.30232e-05C12.2125 0.0184501 11.696 0.550189 11.696 1.17794V2.43712C11.696 3.05379 11.4864 3.652 11.0942 4.14681L7.93328 8.05731C7.44789 8.65921 7.18384 9.39404 7.18384 10.1547V18.5665C7.18384 19.1057 7.64205 19.5414 8.20899 19.5414L18.8177 19.5266C19.5322 19.5266 20.1147 18.9764 20.1147 18.2933V18.1456C20.1147 17.5991 19.738 17.1338 19.2177 16.975C19.9904 16.9049 20.5962 16.2882 20.5962 15.5312C20.5962 14.7927 20.0176 14.1871 19.2682 14.0948H19.3458C20.1807 14.0911 20.9146 13.5113 20.9923 12.7248Z"
+        fill="url(#paint1_linear_1449_920)"
+      />
+    </g>
+    <defs>
+      <linearGradient
+        id="paint0_linear_1449_920"
+        x1={2.96283}
+        y1={9.78178}
+        x2={2.96283}
+        y2={21}
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="currentColor" />
+        <stop offset={1} stopColor="currentColor" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_1449_920"
+        x1={14.0923}
+        y1={-0.000900269}
+        x2={14.0923}
+        y2={19.5414}
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="currentColor" />
+        <stop offset={1} stopColor="currentColor" />
+      </linearGradient>
+      <clipPath id="clip0_1449_920">
+        <rect width={21} height={21} fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
 
 let likeSvg = (
   <div>
@@ -27,9 +77,12 @@ let likeSvg = (
 );
 
 const Blog = ({ blog }) => {
+  console.log("blog = ", blog);
+
   return (
     <div className="relative">
-      <div className="absolute bg-brand-primary-soft max-h-[500px] h-full top-0 left-0 right-0"></div>
+      <div className="bg-square bg-primary/10" />
+      {/* <div className="absolute bg-brand-primary-soft max-h-[500px] h-full top-0 left-0 right-0 z[-1] pointer-none"></div> */}
       <div className="container">
         <div className="flex flex-col gap-3">
           <div className="text-lg md:text-xl lg:text-2xl xl:text-3xl xxl:text-[2.188rem] font-semibold  md:leading-[21.48px] lg:leading-[32px] xl:leading-[38px] xxl:leading-[41.77px]">
@@ -38,27 +91,44 @@ const Blog = ({ blog }) => {
 
           {/* Author Section */}
 
-          <div className="flex justify-between">
-            <div className="flex gap-2 items-center">
-              <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer bg-brand-primary text-[22px] leading-0 text-white font-bold">
-                {blog.author.name[0]?.toUpperCase()}
+          <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-1">
+              <div className="flex gap-2 items-center">
+                <div className="h-[40px] aspect-square border border-solid border-stock hover:border-primary rounded-full flex justify-center items-center cursor-pointer bg-brand-primary text-[22px] leading-0 text-white font-bold">
+                  {blog.author.name[0]?.toUpperCase()}
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <div className="text-base md:text-xl font-medium text-brand-primary md:leading-[21.48px]">
+                    {blog.author.name}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {likeSvg}
+
+                    <span className="text-[14px] font-light text-[#757575] leading-[16px]">
+                      ({blog.likesCount})
+                    </span>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-1">
-                <div className="text-base md:text-xl font-medium text-brand-primary md:leading-[21.48px]">
-                  {blog.author.name}
-                </div>
-                <div className="flex items-center gap-1">
-                  {likeSvg}
-
-                  <span className="text-[14px] font-light text-[#757575] leading-[16px]">
-                    ({blog.likesCount})
-                  </span>
-                </div>
+              <div className="flex gap-1 text-[#757575] text-[14px] leading-[16px]">
+                <div className="text-[#637381] font-medium">Published At:</div>{" "}
+                {moment(blog.publishedAt).fromNow()}
               </div>
             </div>
 
-            <div> {moment(blog.publishedAt).fromNow()}</div>
+            {blog.isLiked ? (
+              <div className="flex gap-2 justify-center items-center h-[45px] w-[145px] bg-primary border border-primary hover:bg-primary/80 text-[18px] leading-[20px] text-white font-bold rounded-[5px] cursor-pointer">
+                {bigLikedSvg}
+                Like
+              </div>
+            ) : (
+              <div className="flex gap-2 justify-center items-center h-[45px] w-[145px] border border-primary text-[18px] leading-[20px] text-primary font-bold rounded-[5px] cursor-pointer">
+                <span>{bigLikedSvg}</span>
+                Like
+              </div>
+            )}
           </div>
 
           {/* thumbnail Section */}

@@ -50,8 +50,25 @@ export const blogsApi = apiWithTag.injectEndpoints({
         }
       },
     }),
+
+    getBlogDetails: builder.query({
+      query: (id) => `/api/v1/blogs/${id}`,
+      keepUnusedDataFor: 0,
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          // console.log("inside useProfileQuery = ", result);
+        } catch (error) {
+          //
+        }
+      },
+    }),
   }),
 });
 
-export const { useCreateBlogMutation, useGetMyBlogsQuery, useGetBlogsQuery } =
-  blogsApi;
+export const {
+  useCreateBlogMutation,
+  useGetMyBlogsQuery,
+  useGetBlogsQuery,
+  useGetBlogDetailsQuery,
+} = blogsApi;

@@ -103,10 +103,6 @@ const BlogCard = ({ blog }) => {
             <div className="flex gap-1">{TagHandler(blog.tags)}</div>
 
             <div className="flex gap-2 items-center">
-              <span className="cursor-pointer text-[#757575] hover:text-brand-primary">
-                {saveSvg}
-              </span>
-
               {id === blog?.author?.id ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
@@ -131,7 +127,9 @@ const BlogCard = ({ blog }) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <></>
+                <span className="cursor-pointer text-[#757575] hover:text-brand-primary">
+                  {saveSvg}
+                </span>
               )}
             </div>
           </div>
