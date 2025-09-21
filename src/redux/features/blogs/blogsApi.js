@@ -88,9 +88,12 @@ export const blogsApi = apiWithTag.injectEndpoints({
                   // console.log("draftState = ", current(draftState));
                   // console.log(
                   //   "draftState = ",
-                  //   current(draftState).data.isLiked
+                  //   current(draftState).data.likesCount
                   // );
                   draftState.data.isLiked = result.data.data.isLiked;
+                  draftState.data.likesCount = result.data.data.isLiked
+                    ? parseInt(draftState.data.likesCount) + 1
+                    : parseInt(draftState.data.likesCount) - 1;
                 }
               )
             );
