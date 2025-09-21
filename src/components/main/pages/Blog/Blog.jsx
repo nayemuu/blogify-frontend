@@ -6,6 +6,10 @@ import "react-quill-new/dist/quill.snow.css";
 import moment from "moment";
 import { Icon } from "@iconify/react";
 import "./Blog.css";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import { useLikeUnlikeTogglerMutation } from "@/redux/features/blogs/blogsApi";
+import LoaderInsideButton from "../../reuseable/Loader/LoaderInsideButton";
 
 let bigLikedSvg = (
   <svg
@@ -77,7 +81,17 @@ let likeSvg = (
 );
 
 const Blog = ({ blog }) => {
-  console.log("blog = ", blog);
+  const { accessToken } = useSelector((state) => state.auth);
+  const [likeUnlikeToggler, { isLoading, isError, isSuccess, data, error }] =
+    useLikeUnlikeTogglerMutation();
+
+  const handleLikeUnlikeToggle = () => {
+    if (accessToken) {
+      likeUnlikeToggler(blog.id);
+    } else {
+      toast.error("Please login first");
+    }
+  };
 
   return (
     <div className="relative">
@@ -119,15 +133,28 @@ const Blog = ({ blog }) => {
             </div>
 
             {blog.isLiked ? (
-              <div className="flex gap-2 justify-center items-center h-[45px] w-[145px] bg-primary border border-primary hover:bg-primary/80 text-[18px] leading-[20px] text-white font-bold rounded-[5px] cursor-pointer">
+              <button
+                onClick={handleLikeUnlikeToggle}
+                disabled={isLoading}
+                className="flex gap-2 justify-center items-center h-[45px] w-[145px] bg-primary border border-primary hover:bg-primary/80 text-[18px] leading-[20px] text-white font-bold rounded-[5px] cursor-pointer"
+              >
+                {isLoading ? <LoaderInsideButton /> : <></>} {bigLikedSvg}
+                Liked
+              </button>
+            ) : (
+              <button
+                onClick={handleLikeUnlikeToggle}
+                disabled={isLoading}
+                className="flex gap-2 justify-center items-center h-[45px] w-[145px] border border-primary text-[18px] leading-[20px] text-primary font-bold rounded-[5px] cursor-pointer"
+              >
+                {isLoading ? (
+                  <LoaderInsideButton className="text-primary" />
+                ) : (
+                  <></>
+                )}
                 {bigLikedSvg}
                 Like
-              </div>
-            ) : (
-              <div className="flex gap-2 justify-center items-center h-[45px] w-[145px] border border-primary text-[18px] leading-[20px] text-primary font-bold rounded-[5px] cursor-pointer">
-                <span>{bigLikedSvg}</span>
-                Like
-              </div>
+              </button>
             )}
           </div>
 
