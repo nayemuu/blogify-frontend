@@ -15,6 +15,7 @@ import { useGetTagsQuery } from "@/redux/features/tags/tagsApi";
 import { useCreateBlogMutation } from "@/redux/features/blogs/blogsApi";
 import { toast } from "sonner";
 import LoaderInsideButton from "@/components/main/reuseable/Loader/LoaderInsideButton";
+import { useRouter } from "next/navigation";
 
 // ------------------------
 // 1. Custom font sizes
@@ -78,6 +79,8 @@ const CreateArticleForm = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const tagsInputRef = useRef();
   const formRef = useRef(null);
+  const quillRef = useRef(null);
+  const router = useRouter();
 
   const clearState = () => {
     setTitle("");
@@ -104,9 +107,17 @@ const CreateArticleForm = () => {
 
   useOutsideClick(tagsInputRef, () => setShowTagsDropdown(false));
 
+  const focusEditor = () => {
+    if (quillRef.current) {
+      quillRef.current.focus(); // focus editor programmatically
+    }
+  };
+
   useEffect(() => {
     if (isSuccess) {
-      console.log("data = ", data);
+      setTimeout(() => {
+        router.push("/profile");
+      }, 2500);
       clearState();
       toast.success("Blog has been published successfully.");
     }
@@ -250,14 +261,17 @@ const CreateArticleForm = () => {
         <Label htmlFor="email" className="text-[20px] mb-3">
           Content <span className="text-brand-primary">*</span>
         </Label>
-        <ReactQuill
-          theme="snow"
-          value={textEditorValue}
-          onChange={textEditorInputHandler}
-          placeholder="Write your article here..."
-          modules={modules}
-          formats={formats}
-        />
+        <div onClick={focusEditor}>
+          <ReactQuill
+            theme="snow"
+            value={textEditorValue}
+            onChange={textEditorInputHandler}
+            placeholder="Write your article here..."
+            modules={modules}
+            formats={formats}
+            ref={quillRef}
+          />
+        </div>
       </div>
 
       <ImageUpload
