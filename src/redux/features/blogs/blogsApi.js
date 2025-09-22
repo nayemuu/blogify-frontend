@@ -1,7 +1,10 @@
 import { current } from "@reduxjs/toolkit";
 import { apiSlice } from "../api/apiSlice";
+import { toast } from "sonner";
 
-const apiWithTag = apiSlice.enhanceEndpoints({ addTagTypes: ["MyBlogs"] });
+const apiWithTag = apiSlice.enhanceEndpoints({
+  addTagTypes: ["MyBlogs", "BlogList"],
+});
 
 export const blogsApi = apiWithTag.injectEndpoints({
   endpoints: (builder) => ({
@@ -43,10 +46,27 @@ export const blogsApi = apiWithTag.injectEndpoints({
       },
     }),
 
+    deleteBlog: builder.mutation({
+      query: (id) => ({
+        url: `/api/v1/blogs/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["MyBlogs", "BlogList"],
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          // console.log("inside useProfileQuery = ", result);
+          toast.success("Blog deleted successfully");
+        } catch (error) {
+          //
+        }
+      },
+    }),
+
     getMyBlogs: builder.query({
       query: ({ limit, offset }) =>
         `/api/v1/user/blogs/?limit=${limit}&offset=${offset}`,
-      // providesTags: ["MyBlogs"],
+      providesTags: ["MyBlogs"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
@@ -61,6 +81,7 @@ export const blogsApi = apiWithTag.injectEndpoints({
       query: ({ limit, offset }) =>
         `/api/v1/blogs/?limit=${limit}&offset=${offset}`,
       keepUnusedDataFor: 0,
+      providesTags: ["BlogList"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
@@ -128,6 +149,7 @@ export const blogsApi = apiWithTag.injectEndpoints({
 export const {
   useCreateBlogMutation,
   useUpdateBlogMutation,
+  useDeleteBlogMutation,
   useGetMyBlogsQuery,
   useGetBlogsQuery,
   useGetBlogDetailsQuery,

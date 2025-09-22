@@ -28,6 +28,8 @@ export default function RootLayout({ children }) {
       >
         <StoreProvider>
           {/* if we call AuthChecking here, then there will be problem for in seo i think.google/web crowler will find loader not the content */}
+          {/* Next time try to sparate route into 2 categories - public and peivate route and group them differently and for private route,
+          make a common layout where you called AuthChecking components and then it won't affect seo */}
           <AuthChecking>{children}</AuthChecking>
         </StoreProvider>
         <Toaster richColors position="top-center" />
