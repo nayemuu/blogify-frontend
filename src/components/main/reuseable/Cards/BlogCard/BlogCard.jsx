@@ -113,10 +113,13 @@ const BlogCard = ({ blog }) => {
                   </DropdownMenuTrigger>
 
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="text-[14px] leading-[16px] cursor-pointer">
-                      <Icon icon="bytesize:edit" width="15" height="15" />
-                      Edit
-                    </DropdownMenuItem>
+                    <Link href={`/update-blog/${blog.id}`}>
+                      <DropdownMenuItem className="text-[14px] leading-[16px] cursor-pointer">
+                        <Icon icon="bytesize:edit" width="15" height="15" />
+                        Edit
+                      </DropdownMenuItem>
+                    </Link>
+
                     <DropdownMenuItem className="text-[14px] leading-[16px] cursor-pointer">
                       <Icon
                         icon="fluent:delete-24-regular"
