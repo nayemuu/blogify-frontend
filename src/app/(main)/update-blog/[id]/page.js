@@ -11,7 +11,7 @@ const page = async ({ params }) => {
 
   return (
     <div className="container">
-      <UpdateBlogForm blog={data.data} />
+      {data?.data ? <UpdateBlogForm blog={data.data} /> : <></>}
     </div>
   );
 };

@@ -24,6 +24,25 @@ export const blogsApi = apiWithTag.injectEndpoints({
       },
     }),
 
+    updateBlog: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/api/v1/blogs/${id}`,
+        method: "POST",
+        body: formData,
+        formData: true,
+      }),
+      invalidatesTags: ["MyBlogs"],
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          // console.log('inside createBlog arg = ', arg);
+          const result = await queryFulfilled;
+          // console.log('inside createBlog result = ', result);
+        } catch (error) {
+          // console.log('inside createBlog error = ', error);
+        }
+      },
+    }),
+
     getMyBlogs: builder.query({
       query: ({ limit, offset }) =>
         `/api/v1/user/blogs/?limit=${limit}&offset=${offset}`,
@@ -108,6 +127,7 @@ export const blogsApi = apiWithTag.injectEndpoints({
 
 export const {
   useCreateBlogMutation,
+  useUpdateBlogMutation,
   useGetMyBlogsQuery,
   useGetBlogsQuery,
   useGetBlogDetailsQuery,

@@ -27,6 +27,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StoreProvider>
+          {/* if we call AuthChecking here, then there will be problem for in seo i think.google/web crowler will find loader not the content */}
           <AuthChecking>{children}</AuthChecking>
         </StoreProvider>
         <Toaster richColors position="top-center" />

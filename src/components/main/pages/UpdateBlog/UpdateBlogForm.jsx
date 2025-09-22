@@ -9,7 +9,10 @@ import MultiSelectOptonItems from "@/components/main/reuseable/Selects/MultiSele
 import { Icon } from "@iconify/react";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useGetTagsQuery } from "@/redux/features/tags/tagsApi";
-import { useCreateBlogMutation } from "@/redux/features/blogs/blogsApi";
+import {
+  useupdateBlogMutation,
+  useUpdateBlogMutation,
+} from "@/redux/features/blogs/blogsApi";
 import { toast } from "sonner";
 import LoaderInsideButton from "@/components/main/reuseable/Loader/LoaderInsideButton";
 import { useRouter } from "next/navigation";
@@ -112,8 +115,8 @@ const UpdateBlogForm = ({ blog }) => {
     error: tagsError,
   } = useGetTagsQuery();
 
-  const [createBlog, { isLoading, isError, isSuccess, data, error }] =
-    useCreateBlogMutation();
+  const [updateBlog, { isLoading, isError, isSuccess, data, error }] =
+    useUpdateBlogMutation();
 
   const textEditorInputHandler = (content, delta, source, editor) => {
     setTextEditorValue(content);
@@ -133,7 +136,7 @@ const UpdateBlogForm = ({ blog }) => {
         router.push("/profile");
       }, 2500);
       clearState();
-      toast.success("Blog has been published successfully.");
+      toast.success("Blog has been updated successfully.");
     }
   }, [isSuccess]);
 
@@ -194,7 +197,7 @@ const UpdateBlogForm = ({ blog }) => {
     formData.append("content", textEditorValue.trim());
     formData.append("thumbnail", coverImage); // file or base64
 
-    createBlog(formData); // send validated data
+    updateBlog({ id: blog.id, formData: formData }); // send validated data
   };
 
   let selectedTagsTitle = "Select Tag";
