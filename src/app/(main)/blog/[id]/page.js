@@ -1,6 +1,5 @@
 import Blog from "@/components/main/pages/Blog/Blog";
 import BlogSection from "@/components/main/pages/Blog/BlogSection";
-import EnsureReduxStoreSetup from "@/components/main/reuseable/EnsureReduxStoreSetup/EnsureReduxStoreSetup";
 import React from "react";
 
 const page = async ({ params }) => {
@@ -15,9 +14,8 @@ const page = async ({ params }) => {
   return (
     <div>
       {/* <Blog blog={data.data} /> */}
-      <EnsureReduxStoreSetup>
-        <BlogSection id={id} />
-      </EnsureReduxStoreSetup>
+
+      <BlogSection id={id} />
     </div>
   );
 };

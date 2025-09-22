@@ -7,8 +7,9 @@ import {
   useProfileQuery,
 } from "@/redux/features/profile/profileApi";
 import { useEffect } from "react";
+import { PulseLoader } from "react-spinners";
 
-const AuthChecking = () => {
+const AuthChecking = ({ children }) => {
   const localPropertiesChecked = useLocalPropertiesCheck();
   const { accessToken } = useSelector((state) => state.auth);
   // console.log("accessToken = ", accessToken);
@@ -35,7 +36,15 @@ const AuthChecking = () => {
   //   dispatch(profileApi.endpoints.profile.initiate());
   // }
 
-  return <></>;
+  if (!localPropertiesChecked) {
+    return (
+      <div className="w-full h-full flex justify-center items-center mt-[200px]">
+        <PulseLoader color="#43bfc7" />
+      </div>
+    ); // Showing loader while Ensuring redux store is set
+  }
+
+  return <>{children}</>;
 };
 
 export default AuthChecking;

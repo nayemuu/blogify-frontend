@@ -27,8 +27,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StoreProvider>
-          {children}
-          <AuthChecking />
+          <AuthChecking>{children}</AuthChecking>
         </StoreProvider>
         <Toaster richColors position="top-center" />
       </body>
