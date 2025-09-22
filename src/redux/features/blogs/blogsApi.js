@@ -143,6 +143,19 @@ export const blogsApi = apiWithTag.injectEndpoints({
         }
       },
     }),
+
+    searchBlogs: builder.query({
+      query: ({ limit, offset, keyword }) =>
+        `/api/v1/blogs/search/?limit=${limit}&offset=${offset}&query=${keyword}`,
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          // console.log("inside useProfileQuery = ", result);
+        } catch (error) {
+          //
+        }
+      },
+    }),
   }),
 });
 
@@ -154,4 +167,5 @@ export const {
   useGetBlogsQuery,
   useGetBlogDetailsQuery,
   useLikeUnlikeTogglerMutation,
+  useSearchBlogsQuery,
 } = blogsApi;
