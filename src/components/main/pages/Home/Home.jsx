@@ -7,6 +7,7 @@ import ReactPaginate from "react-paginate";
 import JumpToPageSection from "../../reuseable/JumpToPageSection/JumpToPageSection";
 import ReuseableBlogsListWithPaginations from "../../reuseable/ReuseableBlogsListWithPaginations/ReuseableBlogsListWithPaginations";
 import { toast } from "sonner";
+import HeroSection from "./HeroSection";
 
 const Home = () => {
   const limit = 5;
@@ -79,18 +80,21 @@ const Home = () => {
   //end of pagination logic
 
   return (
-    <div className="container">
-      <ReuseableBlogsListWithPaginations
-        blogs={data?.blogs ? data.blogs : []}
-        pageCount={pageCount}
-        initialPage={initialPage}
-        handlePageClick={handlePageClick}
-        jumpToPage={jumpToPage}
-        setJumpToPage={setJumpToPage}
-        handlePageJump={handlePageJump}
-        isLoading={isLoading}
-        limit={limit}
-      />
+    <div>
+      <HeroSection />
+      <div className="container">
+        <ReuseableBlogsListWithPaginations
+          blogs={data?.blogs ? data.blogs : []}
+          pageCount={pageCount}
+          initialPage={initialPage}
+          handlePageClick={handlePageClick}
+          jumpToPage={jumpToPage}
+          setJumpToPage={setJumpToPage}
+          handlePageJump={handlePageJump}
+          isLoading={isLoading}
+          limit={limit}
+        />
+      </div>
     </div>
   );
 };
