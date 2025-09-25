@@ -37,6 +37,22 @@ const saveSvg = (
     />
   </svg>
 );
+const savedSvg = (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 180 180"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M157.5 83.235V120.682C157.5 143.902 157.5 155.52 151.995 160.59C149.37 163.013 146.055 164.535 142.522 164.94C135.12 165.788 126.472 158.137 109.185 142.845C101.535 136.087 97.7175 132.705 93.3 131.82C91.1219 131.381 88.8781 131.381 86.7 131.82C82.275 132.705 78.4575 136.087 70.815 142.845C53.5275 158.137 44.88 165.787 37.4775 164.932C33.9393 164.527 30.6218 163.006 28.005 160.59C22.5 155.52 22.5 143.91 22.5 120.682V83.2275C22.5 51.075 22.5 34.9875 32.385 24.9975C42.27 15 58.185 15 90 15C121.823 15 137.73 15 147.615 24.99C157.5 34.9875 157.5 51.075 157.5 83.235ZM61.875 45C61.875 43.5082 62.4676 42.0774 63.5225 41.0225C64.5774 39.9676 66.0082 39.375 67.5 39.375H112.5C113.992 39.375 115.423 39.9676 116.477 41.0225C117.532 42.0774 118.125 43.5082 118.125 45C118.125 46.4918 117.532 47.9226 116.477 48.9775C115.423 50.0324 113.992 50.625 112.5 50.625H67.5C66.0082 50.625 64.5774 50.0324 63.5225 48.9775C62.4676 47.9226 61.875 46.4918 61.875 45Z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
 const likeSvg = (
   <svg
@@ -87,7 +103,7 @@ const TagHandler = (tags) => {
 const BlogCard = ({ blog }) => {
   const { id } = useSelector((state) => state.profile);
   // console.log("id = ", id);
-  // console.log("blog = ", blog.author.id);
+  console.log("blog = ", blog.isBookmarked);
 
   const [deleteBlog, { isLoading, isError, isSuccess, data, error }] =
     useDeleteBlogMutation();
@@ -151,6 +167,10 @@ const BlogCard = ({ blog }) => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+              ) : blog?.isBookmarked ? (
+                <span className="cursor-pointer hover:text-[#757575] text-brand-primary">
+                  {savedSvg}
+                </span>
               ) : (
                 <span className="cursor-pointer text-[#757575] hover:text-brand-primary">
                   {saveSvg}

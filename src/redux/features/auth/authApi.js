@@ -33,6 +33,9 @@ export const authApi = apiSlice.injectEndpoints({
                 refreshToken: result.data.data.tokens.refresh,
               })
             );
+            setTimeout(() => {
+              dispatch(apiSlice.util.resetApiState());
+            }, 1);
           }
         } catch (error) {
           //
