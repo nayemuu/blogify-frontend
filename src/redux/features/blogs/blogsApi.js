@@ -144,6 +144,22 @@ export const blogsApi = apiWithTag.injectEndpoints({
       },
     }),
 
+    bookmarkToggler: builder.mutation({
+      query: (id) => ({
+        url: `/api/v1/user/blogs/bookmarks/${id}`,
+        method: "POST",
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          // console.log("inside likeUnlikeToggler arg = ", arg);
+          const result = await queryFulfilled;
+          // console.log("inside likeUnlikeToggler result = ", result);
+        } catch (error) {
+          // console.log('inside createBlog error = ', error);
+        }
+      },
+    }),
+
     searchBlogs: builder.query({
       query: ({ limit, offset, keyword }) =>
         `/api/v1/blogs/search/?limit=${limit}&offset=${offset}&query=${keyword}`,
@@ -168,4 +184,5 @@ export const {
   useGetBlogDetailsQuery,
   useLikeUnlikeTogglerMutation,
   useSearchBlogsQuery,
+  useBookmarkTogglerMutation,
 } = blogsApi;

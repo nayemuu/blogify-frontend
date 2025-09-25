@@ -13,9 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSelector } from "react-redux";
 import LikeFilledSvg from "../../svg/LikeFilledSvg";
-import { useDeleteBlogMutation } from "@/redux/features/blogs/blogsApi";
-import { useEffect } from "react";
+import {
+  useBookmarkTogglerMutation,
+  useDeleteBlogMutation,
+} from "@/redux/features/blogs/blogsApi";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const saveSvg = (
   <svg
@@ -101,12 +105,30 @@ const TagHandler = (tags) => {
 };
 
 const BlogCard = ({ blog }) => {
+  const [isBookmark, setIsBookmark] = useState(false);
+  const { accessToken } = useSelector((state) => state.auth);
   const { id } = useSelector((state) => state.profile);
   // console.log("id = ", id);
-  console.log("blog = ", blog.isBookmarked);
 
   const [deleteBlog, { isLoading, isError, isSuccess, data, error }] =
     useDeleteBlogMutation();
+
+  const [
+    bookmarkToggler,
+    {
+      isLoading: bookmarkIsLoading,
+      isError: bookmarkIsError,
+      isSuccess: bookmarkIsSuccess,
+      data: bookmarkData,
+      error: bookmarkError,
+    },
+  ] = useBookmarkTogglerMutation();
+
+  useEffect(() => {
+    if (blog?.isBookmarked) {
+      setIsBookmark(blog.isBookmarked);
+    }
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -119,6 +141,25 @@ const BlogCard = ({ blog }) => {
       }
     }
   }, [isError]);
+
+  useEffect(() => {
+    if (bookmarkIsSuccess && bookmarkData) {
+      if (bookmarkData?.data) {
+        // console.log("isBookmarked = ", bookmarkData.data.isBookmarked);
+        setIsBookmark(bookmarkData.data.isBookmarked);
+      }
+    }
+  }, [bookmarkIsSuccess]);
+
+  const handleBookmark = () => {
+    if (accessToken) {
+      if (!isLoading) {
+        bookmarkToggler(blog.id);
+      }
+    } else {
+      toast.error("Please log in to add this bookmark.");
+    }
+  };
 
   return (
     <div className="blog-card-shadow border-2 border-transparent hover:border-brand-primary rounded-[15px] overflow-hidden">
@@ -167,12 +208,26 @@ const BlogCard = ({ blog }) => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ) : blog?.isBookmarked ? (
-                <span className="cursor-pointer hover:text-[#757575] text-brand-primary">
+              ) : isBookmark ? (
+                <span
+                  className={cn(
+                    `cursor-pointer hover:text-[#757575] text-brand-primary ${
+                      bookmarkIsLoading ? "cursor-progress" : ""
+                    }`
+                  )}
+                  onClick={handleBookmark}
+                >
                   {savedSvg}
                 </span>
               ) : (
-                <span className="cursor-pointer text-[#757575] hover:text-brand-primary">
+                <span
+                  className={cn(
+                    `cursor-pointer text-[#757575] hover:text-brand-primary ${
+                      bookmarkIsLoading ? "cursor-progress" : ""
+                    }`
+                  )}
+                  onClick={handleBookmark}
+                >
                   {saveSvg}
                 </span>
               )}
