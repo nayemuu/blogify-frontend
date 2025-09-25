@@ -11,6 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useSelector } from "react-redux";
 import LikeFilledSvg from "../../svg/LikeFilledSvg";
 import {
@@ -209,27 +214,41 @@ const BlogCard = ({ blog }) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : isBookmark ? (
-                <span
-                  className={cn(
-                    `cursor-pointer hover:text-[#757575] text-brand-primary ${
-                      bookmarkIsLoading ? "cursor-progress" : ""
-                    }`
-                  )}
-                  onClick={handleBookmark}
-                >
-                  {savedSvg}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span
+                      className={cn(
+                        `cursor-pointer hover:text-[#757575] text-brand-primary ${
+                          bookmarkIsLoading ? "cursor-progress" : ""
+                        }`
+                      )}
+                      onClick={handleBookmark}
+                    >
+                      {savedSvg}
+                    </span>{" "}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Remove from Bookmark</p>
+                  </TooltipContent>
+                </Tooltip>
               ) : (
-                <span
-                  className={cn(
-                    `cursor-pointer text-[#757575] hover:text-brand-primary ${
-                      bookmarkIsLoading ? "cursor-progress" : ""
-                    }`
-                  )}
-                  onClick={handleBookmark}
-                >
-                  {saveSvg}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span
+                      className={cn(
+                        `cursor-pointer text-[#757575] hover:text-brand-primary ${
+                          bookmarkIsLoading ? "cursor-progress" : ""
+                        }`
+                      )}
+                      onClick={handleBookmark}
+                    >
+                      {saveSvg}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Add to Bookmark</p>
+                  </TooltipContent>
+                </Tooltip>
               )}
             </div>
           </div>
