@@ -33,6 +33,10 @@ const navLinks = [
     href: "/",
   },
   {
+    title: "Blogs",
+    href: "/blogs",
+  },
+  {
     title: "Create Blog",
     href: "/create-blog",
   },

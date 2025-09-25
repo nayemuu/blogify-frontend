@@ -2,15 +2,11 @@
 
 import { useGetBlogsQuery } from "@/redux/features/blogs/blogsApi";
 import { useEffect, useState } from "react";
-import BlogCard from "../../reuseable/Cards/BlogCard/BlogCard";
-import ReactPaginate from "react-paginate";
-import JumpToPageSection from "../../reuseable/JumpToPageSection/JumpToPageSection";
-import ReuseableBlogsListWithPaginations from "../../reuseable/ReuseableBlogsListWithPaginations/ReuseableBlogsListWithPaginations";
 import { toast } from "sonner";
-import HeroSection from "./HeroSection";
+import ReuseableBlogsListWithPaginations from "../../reuseable/ReuseableBlogsListWithPaginations/ReuseableBlogsListWithPaginations";
 import SectionTitle from "../../reuseable/Typography/SectionTitle";
 
-const Home = () => {
+const Blogs = () => {
   const limit = 5;
   const [offset, setOffset] = useState(0);
   const [initialPage, setInitialPage] = useState(0); // Initialize initialPage state
@@ -82,11 +78,11 @@ const Home = () => {
 
   return (
     <div>
-      <HeroSection />
       <div className="container">
         <div className="mb-5">
-          <SectionTitle>Recent Blogs</SectionTitle>
+          <SectionTitle>Explore Blogs</SectionTitle>
         </div>
+
         <ReuseableBlogsListWithPaginations
           blogs={data?.blogs ? data.blogs : []}
           pageCount={pageCount}
@@ -103,4 +99,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Blogs;

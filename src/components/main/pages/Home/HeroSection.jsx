@@ -1,7 +1,13 @@
+"use client";
+
 import heroImage from "@/assets/pages/Home/Good-team-pana.svg";
 import Image from "next/image";
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 export default function HeroSection() {
+  const { accessToken } = useSelector((state) => state.auth);
   return (
     <section className="relative bg-gradient-to-r from-[#3abfba1a] via-white to-[#3abfba1a] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -27,12 +33,26 @@ export default function HeroSection() {
 
           {/* Buttons */}
           <div className="mt-8 flex justify-center lg:justify-start gap-4">
-            <button className="px-6 py-3 rounded-xl bg-[#43bfc7] text-white font-semibold shadow hover:bg-[#087ea4] transition cursor-pointer">
-              Start Writing
-            </button>
-            <button className="px-6 py-3 rounded-xl border-2 border-[#43bfc7] text-[#087ea4] font-semibold hover:bg-[#3abfba1a] transition cursor-pointer">
-              Explore Blogs
-            </button>
+            {accessToken ? (
+              <Link href="/create-blog">
+                <button className="px-6 py-3 rounded-xl bg-[#43bfc7] text-white font-semibold shadow hover:bg-[#087ea4] transition cursor-pointer">
+                  Start Writing
+                </button>
+              </Link>
+            ) : (
+              <button
+                className="px-6 py-3 rounded-xl bg-[#43bfc7] text-white font-semibold shadow hover:bg-[#087ea4] transition cursor-pointer"
+                onClick={() => toast.error("Please login first")}
+              >
+                Start Writing
+              </button>
+            )}
+
+            <Link href="/blogs">
+              <button className="px-6 py-3 rounded-xl border-2 border-[#43bfc7] text-[#087ea4] font-semibold hover:bg-[#3abfba1a] transition cursor-pointer">
+                Explore Blogs
+              </button>
+            </Link>
           </div>
         </div>
       </div>
