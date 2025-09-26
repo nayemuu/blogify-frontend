@@ -26,6 +26,7 @@ export const apiSlice = createApi({
       // console.log("Access token expired → trying refresh...");
       const refreshToken = api.getState()?.auth?.refreshToken;
       if (refreshToken) {
+        console.log("refreshToken = ", refreshToken);
         // authApi.endpoints.updateRefreshToken.initiate({refreshToken})
         // Try refreshing the token
         const refreshResult = await baseQuery(
@@ -90,12 +91,12 @@ export const apiSlice = createApi({
       // console.log("Refresh failed → logging out...");
       api.dispatch(userLoggedOut());
       localStorage.removeItem("auth");
-      setTimeout(() => {
-        api.dispatch(apiSlice.util.resetApiState());
-      }, 1);
+      // setTimeout(() => {
+      //   api.dispatch(apiSlice.util.resetApiState());
+      // }, 1);
 
       // show toast, but don't return its value
-      toast.error("User Session Expired! Please Login Again.");
+      // toast.error("User Session Expired! Please Login Again.");
 
       // return a valid error object for RTK Query
       return { error: { status: 401, data: "Session expired" } };

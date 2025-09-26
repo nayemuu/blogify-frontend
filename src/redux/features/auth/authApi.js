@@ -90,9 +90,15 @@ export const authApi = apiSlice.injectEndpoints({
           //   console.log("inside login result = ", result);
           dispatch(userLoggedOut());
           localStorage.removeItem("auth");
+          // setTimeout(() => {
+          //   dispatch(apiSlice.util.resetApiState());
+          // }, 1);
+
           setTimeout(() => {
-            dispatch(apiSlice.util.resetApiState());
-          }, 1);
+            if (window) {
+              window.location.reload();
+            }
+          }, 2500);
           toast.success("Log Out Successfully");
         } catch (error) {
           //
