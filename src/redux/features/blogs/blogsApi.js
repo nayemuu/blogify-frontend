@@ -3,7 +3,7 @@ import { apiSlice } from "../api/apiSlice";
 import { toast } from "sonner";
 
 const apiWithTag = apiSlice.enhanceEndpoints({
-  addTagTypes: ["MyBlogs", "BlogList"],
+  addTagTypes: ["MyBlogs", "BlogList", "BookmarkedList"],
 });
 
 export const blogsApi = apiWithTag.injectEndpoints({
@@ -149,6 +149,8 @@ export const blogsApi = apiWithTag.injectEndpoints({
         url: `/api/v1/user/blogs/bookmarks/${id}`,
         method: "POST",
       }),
+
+      invalidatesTags: ["BookmarkedList"],
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           // console.log("inside likeUnlikeToggler arg = ", arg);
@@ -172,6 +174,21 @@ export const blogsApi = apiWithTag.injectEndpoints({
         }
       },
     }),
+
+    getBookmarkedBlogs: builder.query({
+      query: ({ limit, offset }) =>
+        `/api/v1/user/blogs/bookmarks/?limit=${limit}&offset=${offset}`,
+      keepUnusedDataFor: 0,
+      providesTags: ["BookmarkedList"],
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          // console.log("inside useProfileQuery = ", result);
+        } catch (error) {
+          //
+        }
+      },
+    }),
   }),
 });
 
@@ -185,4 +202,5 @@ export const {
   useLikeUnlikeTogglerMutation,
   useSearchBlogsQuery,
   useBookmarkTogglerMutation,
+  useGetBookmarkedBlogsQuery,
 } = blogsApi;

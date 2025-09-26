@@ -103,6 +103,12 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </Link>
 
+                  <Link href="/bookmarks">
+                    <DropdownMenuItem className="cursor-pointer">
+                      Bookmarks
+                    </DropdownMenuItem>
+                  </Link>
+
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onClick={() => setShowLogoutModal(true)}
