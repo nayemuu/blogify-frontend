@@ -42,9 +42,6 @@ const fetchWithTimeout = (promise, timeoutMs) =>
 const customBaseQuery = async (args, api, extraOptions) => {
   let result;
 
-  console.log("args = ", args);
-  //output - args =  /api/v1/blogs/?limit=5&offset=0
-
   // ✅ Only intercept GET requests if baseUrl matches
   if (
     process.env.NEXT_PUBLIC_BASE_URL ===
@@ -59,7 +56,7 @@ const customBaseQuery = async (args, api, extraOptions) => {
       try {
         result = await fetchWithTimeout(
           baseQuery(args, api, extraOptions),
-          15 * 1000 // 15 seconds
+          10 * 1000 // 10 seconds
         );
 
         // If success or valid error -> break loop
