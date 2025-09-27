@@ -41,13 +41,19 @@ const fetchWithTimeout = (promise, timeoutMs) =>
 // Custom baseQuery wrapper
 const customBaseQuery = async (args, api, extraOptions) => {
   let result;
-  // ✅ Only intercept GET requests if baseUrl is - https://blogify-backend-8swc.onrender.com
+
+  console.log("args = ", args);
+  //output - args =  /api/v1/blogs/?limit=5&offset=0
+
+  // ✅ Only intercept GET requests if baseUrl matches
   if (
-    (process.env.NEXT_PUBLIC_BASE_URL ===
+    process.env.NEXT_PUBLIC_BASE_URL ===
       "https://blogify-backend-8swc.onrender.com" &&
-      typeof args === "object" &&
-      args?.method?.toUpperCase() === "GET") ||
-    (!args.method && typeof args === "object") // default fetchBaseQuery is GET
+    // Case 1: args is an object
+    ((typeof args === "object" &&
+      (args?.method?.toUpperCase() === "GET" || !args?.method)) ||
+      // Case 2: args is a string (implicit GET)
+      typeof args === "string")
   ) {
     while (true) {
       try {
