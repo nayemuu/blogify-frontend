@@ -51,9 +51,17 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
-          //   console.log("inside register arg = ", arg);
-          // const result = await queryFulfilled;
-          //   console.log("inside register result = ", result);
+          // console.log("inside register arg = ", arg);
+          const result = await queryFulfilled;
+          // console.log("inside register result = ", result);
+          if (result?.data?.message) {
+            // console.log("message = ", result.data.message);
+            if (result.data.message === "User successfully registered") {
+              setTimeout(() => {
+                toast.success(result.data.message);
+              }, 1);
+            }
+          }
         } catch (error) {
           //
         }

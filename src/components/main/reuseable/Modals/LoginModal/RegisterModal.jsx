@@ -31,6 +31,8 @@ import OtpVerificationTimer from "./OtpVerificationTimer/OtpVerificationTimer";
 import LoaderInsideButton from "../../Loader/LoaderInsideButton";
 import { toast } from "sonner";
 
+let OtpVerification = false;
+
 const RegisterModal = ({ open, setShowRegisterModal, setShowLoginModal }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -126,6 +128,9 @@ const RegisterModal = ({ open, setShowRegisterModal, setShowLoginModal }) => {
       // setShowRegisterModal(false);
       setMinutes(5);
       setSeconds(0);
+      if (!OtpVerification) {
+        setShowRegisterModal(false);
+      }
     }
   }, [isSuccess]);
 
