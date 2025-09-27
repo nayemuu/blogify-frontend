@@ -1,13 +1,16 @@
 "use client";
 
 import { useProfileQuery } from "@/redux/features/profile/profileApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import backgroundOfCoverPhoto from "@/assets/pages/profile/backgroundOfCoverPhoto.png";
 import Image from "next/image";
 import "./ProfileSection.css";
+import EditProfileModal from "@/components/main/reuseable/Modals/LoginModal/EditProfileModal";
+import { Dialog } from "@/components/ui/dialog";
 
 function ProfileSection(props) {
   const { isLoading, isError, isSuccess, data, error } = useProfileQuery();
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
   // useEffect(() => {
   //   if (isSuccess) {
@@ -38,6 +41,18 @@ function ProfileSection(props) {
               </span>
             </div>
           </div>
+
+          {/* <div className="max-w-[150px] lg:max-w-[250px] w-full">
+            <button
+              type="button"
+              className="px-[22px] md:px-[30px] lg:px-[35px] xl:px-[37px] py-[3px] sm:py-[4px] md:py-[7px] lg:py-[9px] xl:py-[12px] bg-gradient-to-b from-primary to-brand-secondary  text-white rounded-[5px] text-xs md:text-sm lg:text-base xl:text-lg font-bold leading-[21.48px] hover:from-primary/80 hover:to-brand-secondary/80 cursor-pointer w-full"
+              onClick={() => {
+                setShowEditProfileModal(true);
+              }}
+            >
+              Edit Profile
+            </button>
+          </div> */}
         </div>
 
         <div className="relative cover-photo-background">
@@ -52,6 +67,13 @@ function ProfileSection(props) {
           </div>
         </div>
       </div>
+
+      <Dialog
+        open={showEditProfileModal}
+        onOpenChange={setShowEditProfileModal}
+      >
+        <EditProfileModal open={showEditProfileModal} />
+      </Dialog>
     </div>
   ) : (
     <div className="container">Loading...</div>
