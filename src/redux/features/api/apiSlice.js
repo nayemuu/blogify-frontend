@@ -7,8 +7,8 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = getState()?.auth?.accessToken;
     //console.log(getState());
-
     // console.log('in apiSlice prepareHeaders, token = ', token);
+
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
@@ -19,14 +19,16 @@ const baseQuery = fetchBaseQuery({
 
 // Custom baseQuery wrapper
 const customBaseQuery = async (args, api, extraOptions) => {
-  let results = await baseQuery(args, api, extraOptions);
-  // console.log("results = ", results);
-  if (results?.error?.status === 401) {
-    // console.log("Access token expired → trying refresh...");
+  let result = await baseQuery(args, api, extraOptions);
+  // console.log("result = ", result);
+
+  // 🔑 Handle expired tokens (401)
+  if (result?.error?.status === 401) {
     const refreshToken = api.getState()?.auth?.refreshToken;
+    // console.log("refreshToken = ", refreshToken);
     if (refreshToken) {
-      console.log("refreshToken = ", refreshToken);
-      // authApi.endpoints.updateRefreshToken.initiate({refreshToken})
+      // console.log("Access token expired → trying refresh...");
+
       // Try refreshing the token
       const refreshResult = await baseQuery(
         {
@@ -41,8 +43,6 @@ const customBaseQuery = async (args, api, extraOptions) => {
       // console.log("refreshResult = ", refreshResult);
       if (refreshResult?.data?.accessToken) {
         // console.log("accessToken = ", refreshResult.data.accessToken);
-
-        // console.log("inside 1");
         // console.log("pre accessToken = ", api.getState()?.auth?.accessToken);
         api.dispatch(
           userLoggedIn({
@@ -52,7 +52,6 @@ const customBaseQuery = async (args, api, extraOptions) => {
         );
 
         // console.log("curr accessToken = ", api.getState()?.auth?.accessToken);
-        // console.log("inside 2");
 
         localStorage.setItem(
           "auth",
@@ -65,9 +64,9 @@ const customBaseQuery = async (args, api, extraOptions) => {
         // retry original query
         // console.log("Refresh success → retrying original query...");
         //approch 1
-        // let results = await baseQuery(args, api, extraOptions);//hey chatgpt should we await it, just return  baseQuery(args, api, extraOptions);
-        // console.log("results ", results);
-        // return results;
+        // let result = await baseQuery(args, api, extraOptions);
+        // console.log("result ", result);
+        // return result;
 
         //approch 2
         return baseQuery(args, api, extraOptions); // ✅ cleaner
@@ -87,25 +86,18 @@ const customBaseQuery = async (args, api, extraOptions) => {
         return { error: { status: 401, data: "Session expired" } };
       }
     }
-    // console.log("Refresh failed → logging out...");
+    // console.log("Refresh failed , because there is no RefreshToken → logging out...");
     api.dispatch(userLoggedOut());
     localStorage.removeItem("auth");
-    // setTimeout(() => {
-    //   api.dispatch(apiSlice.util.resetApiState());
-    // }, 1);
 
-    // show toast, but don't return its value
-    // toast.error("User Session Expired! Please Login Again.");
-
-    // return a valid error object for RTK Query
-    return { error: { status: 401, data: "Session expired" } };
+    return result;
   }
 
-  if (results?.error?.status === "FETCH_ERROR") {
+  if (result?.error?.status === "FETCH_ERROR") {
     console.log("Backend is Down");
   }
 
-  return results;
+  return result;
 };
 
 export const apiSlice = createApi({
