@@ -17,62 +17,9 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-/**
- * Wraps a promise with a timeout.
- * If the promise does not settle (resolve/reject) within the given time,
- * it rejects with a "TIMEOUT" error instead.
- *
- * @param {Promise} promise - The original async operation (e.g. fetch).
- * @param {number} timeoutMs - Timeout duration in milliseconds.
- * @returns {Promise} - Resolves/rejects with the first settled result
- *                      (either the promise or the timeout).
- */
-const fetchWithTimeout = (promise, timeoutMs) =>
-  Promise.race([
-    // The original async operation
-    promise,
-
-    // A "timeout promise" that rejects after `timeoutMs`
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("TIMEOUT")), timeoutMs)
-    ),
-  ]);
-
 // Custom baseQuery wrapper
 const customBaseQuery = async (args, api, extraOptions) => {
-  let result;
-  // ✅ Only intercept GET requests if baseUrl is - https://blogify-backend-8swc.onrender.com
-  if (
-    (process.env.NEXT_PUBLIC_BASE_URL ===
-      "https://blogify-backend-8swc.onrender.com" &&
-      typeof args === "object" &&
-      args?.method?.toUpperCase() === "GET") ||
-    (!args.method && typeof args === "object") // default fetchBaseQuery is GET
-  ) {
-    while (true) {
-      try {
-        result = await fetchWithTimeout(
-          baseQuery(args, api, extraOptions),
-          15 * 1000 // 15 seconds
-        );
-
-        // If success or valid error -> break loop
-        if (!result.error || result.error.status !== "FETCH_ERROR") {
-          break;
-        }
-      } catch (err) {
-        if (err.message === "TIMEOUT") {
-          console.warn("Request timed out, retrying GET:", args?.url);
-          continue; // retry again
-        } else {
-          throw err;
-        }
-      }
-    }
-  } else {
-    result = await baseQuery(args, api, extraOptions);
-  }
-
+  let result = await baseQuery(args, api, extraOptions);
   // console.log("result = ", result);
 
   // 🔑 Handle expired tokens (401)
