@@ -21,6 +21,15 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  if (
+    process.env.NEXT_PUBLIC_BASE_URL ===
+    "https://blogify-backend-8swc.onrender.com"
+  ) {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/`, {
+      cache: "no-store",
+    });
+  }
+
   return (
     <html lang="en">
       <body
