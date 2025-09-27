@@ -4,9 +4,11 @@ import React from "react";
 
 const layout = ({ children }) => {
   return (
-    <div>
-      <Navbar />
-      <div className="">{children}</div>
+    <div className="min-h-screen flex flex-col justify-between w-full">
+      <div>
+        <Navbar />
+        <div className="">{children}</div>
+      </div>
       <Footer />
     </div>
   );

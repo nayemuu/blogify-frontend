@@ -7,7 +7,7 @@ const getCurrentYear = () => {
 const Footer = () => {
   let year = getCurrentYear(); //hey chatgpt, write a getCurrentYear function , which return current date
   return (
-    <div className="flex justify-center flex-wrap mx-auto py-4 px-2 md:px-6 gap-6 md:gap-14 border-t">
+    <div className="flex justify-center flex-wrap mx-auto py-4 px-2 md:px-6 gap-6 md:gap-14 border-t w-full">
       <p>Copyright © {year} - All right reserved by Nayem Hasan</p>
       <div className="flex gap-3">
         <a href="https://github.com/nayemuu" target="_blank">
