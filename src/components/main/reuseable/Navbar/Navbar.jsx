@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import logo from "@/assets/components/Navbar/care2shareLogo.png";
+import logo from "@/assets/components/Navbar/logo.png";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import SearchBar from "./SearchBar/SearchBar";
@@ -68,7 +68,9 @@ const Navbar = () => {
       <div className="bg-white backdrop-blur-md sticky top-0 left-0 right-0 border-b z-[10]">
         <div className="container min-h-[80px] flex items-center justify-between w-full gap-x-[20px]">
           <div className="flex gap-x-[15px] items-center">
-            <Image src={logo} className="w-36" alt="logo" />
+            <Link href="/">
+              <Image src={logo} className="h-[42px] w-auto" alt="logo" />
+            </Link>
 
             {navLinks?.length ? (
               <nav className="hidden gap-6 lg:flex">
