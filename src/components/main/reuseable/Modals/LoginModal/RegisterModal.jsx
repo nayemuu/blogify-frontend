@@ -30,6 +30,7 @@ import { Icon } from "@iconify/react";
 import OtpVerificationTimer from "./OtpVerificationTimer/OtpVerificationTimer";
 import LoaderInsideButton from "../../Loader/LoaderInsideButton";
 import { toast } from "sonner";
+import { getCaptchaToken } from "@/utils/tokenUtills";
 
 let OtpVerification = false;
 
@@ -78,7 +79,7 @@ const RegisterModal = ({ open, setShowRegisterModal, setShowLoginModal }) => {
     }
   }, [open]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name?.trim()) {
@@ -105,6 +106,10 @@ const RegisterModal = ({ open, setShowRegisterModal, setShowLoginModal }) => {
     // console.log("email = ", email);
     // console.log("password = ", password);
     // console.log("confirmPassword = ", confirmPassword);
+    const token = await getCaptchaToken();
+    console.log("ReCaptchaToken = ", token);
+
+    return;
 
     register({
       name: name.trim(),

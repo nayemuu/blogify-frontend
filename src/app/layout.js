@@ -4,6 +4,7 @@ import "./App.css";
 import StoreProvider from "@/redux/provider/StoreProvider";
 import AuthChecking from "@/components/main/reuseable/AuthChecking/AuthChecking";
 import { Toaster } from "sonner";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script
+          strategy="beforeInteractive"
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY}`}
+        />
         <StoreProvider>
           {/* if we call AuthChecking here, then there will be problem for in seo i think.google/web crowler will find loader not the content */}
           {/* Next time try to sparate route into 2 categories - public and peivate route and group them differently and for private route,
