@@ -4,6 +4,7 @@ import "./App.css";
 import StoreProvider from "@/redux/provider/StoreProvider";
 import AuthChecking from "@/components/main/reuseable/AuthChecking/AuthChecking";
 import { Toaster } from "sonner";
+import ReCaptchaProvider from "@/components/main/reuseable/ReCaptchaProvider/ReCaptchaProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +40,9 @@ export default function RootLayout({ children }) {
           {/* if we call AuthChecking here, then there will be problem for in seo i think.google/web crowler will find loader not the content */}
           {/* Next time try to sparate route into 2 categories - public and peivate route and group them differently and for private route,
           make a common layout where you called AuthChecking components and then it won't affect seo */}
-          <AuthChecking>{children}</AuthChecking>
+          <ReCaptchaProvider>
+            <AuthChecking>{children}</AuthChecking>
+          </ReCaptchaProvider>
         </StoreProvider>
         <Toaster richColors position="top-center" />
       </body>
